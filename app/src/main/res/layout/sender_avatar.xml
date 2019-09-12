@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/sender_avatar"
+        android:layout_width="@dimen/user_image_size"
+        android:layout_height="@dimen/user_image_size"
+        app:civ_border="true"
+        android:src="@drawable/sample"/>
+
+</FrameLayout>

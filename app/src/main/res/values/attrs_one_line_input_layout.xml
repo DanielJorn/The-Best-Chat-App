@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="OneLineInputLayout">
+        <attr name="android:inputType"/>
+    </declare-styleable>
+</resources>

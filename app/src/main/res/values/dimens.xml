@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- TODO Clean up these ridiculous dimens -->
+
+    <dimen name="small_padding">5dp</dimen>
+
+    <dimen name="extra_small_text">2sp</dimen>
+    <dimen name="small_text">5sp</dimen>
+    <dimen name="average_text">10sp</dimen>
+    <dimen name="huge_text">20sp</dimen>
+
+    <dimen name="text_send_time">10sp</dimen>
+
+    <dimen name="extra_small_margin">2dp</dimen>
+    <dimen name="small_margin">5dp</dimen>
+    <dimen name="average_margin">10dp</dimen>
+
+    <dimen name="layout_chat_info_height">50dp</dimen>
+
+    <dimen name="chat_preview_image_size">@dimen/layout_chat_info_height</dimen>
+
+    <dimen name="last_message_sender_avatar_size">25dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="sender_avatar_size">50dp</dimen>
+    <dimen name="user_image_size">50dp</dimen>
+    <dimen name="message_upper_margin">10dp</dimen>
+    <dimen name="message_margin_from_screen_edge">16dp</dimen>
+    <dimen name="message_text_margin_from_avatar">2dp</dimen>
+
+    <!-- Settings for creating chats -->
+    <integer name="max_chat_title_length">32</integer>
+    <integer name="max_chat_radius_digits">2</integer>
+
+
+</resources>

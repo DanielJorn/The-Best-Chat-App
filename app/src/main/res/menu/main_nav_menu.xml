@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group>
+        <item android:id="@+id/menu_action_create_chat"
+              android:icon="@drawable/bang"
+              app:showAsAction="always"
+              android:title="@string/title_menu_create_chat"/>
+
+        <item android:id="@+id/menu_action_go_to_test_chat"
+            android:icon="@drawable/bang"
+            app:showAsAction="always"
+            android:title="@string/title_menu_go_to_test_chat"/>
+    </group>
+</menu>
