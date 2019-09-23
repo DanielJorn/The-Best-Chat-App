@@ -1,28 +1,21 @@
 package com.danjorn.viewModels
 
 import android.app.Activity
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.danjorn.models.database.ChatPojo
-import com.danjorn.utils.uploadChat
+import androidx.lifecycle.viewModelScope
+import com.danjorn.models.ChatPojo
+import com.danjorn.utils.suspendUploadChat
+import kotlinx.coroutines.launch
 
 class CreateChatViewModel : ViewModel() {
     val liveData = MutableLiveData<String>()
-
-    /*
-    *
-    *
-    *
-    *
-    */
+    private val tag = CreateChatViewModel::class.java.simpleName
 
     fun uploadChat(activity: Activity, chatPojo: ChatPojo) {
-        val successListener: (String) -> Unit = { liveData.postValue(it) }
-        val failureListener: (Exception) -> Unit = {
-            Toast.makeText(activity, "There is a $it exception :(", Toast.LENGTH_SHORT).show()
+        viewModelScope.launch {
+            suspendUploadChat(activity, chatPojo)
         }
-        uploadChat(activity, chatPojo, successListener, failureListener)
     }
 
 

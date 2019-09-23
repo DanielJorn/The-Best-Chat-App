@@ -6,12 +6,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.danjorn.models.database.MessagePojo
+import com.danjorn.models.MessagePojo
 import com.danjorn.utils.PicassoUtils
 import com.danjorn.views.custom.message.BaseMessageView
 import com.danjorn.views.custom.message.ParticipateMessageView
 import com.danjorn.views.custom.message.UserMessageView
-import java.lang.IllegalStateException
 import java.util.*
 
 class MessageAdapter(private val context: Context, private val messagePojoList: ArrayList<MessagePojo>) : RecyclerView.Adapter<MessageAdapter.MessageHolder>() {

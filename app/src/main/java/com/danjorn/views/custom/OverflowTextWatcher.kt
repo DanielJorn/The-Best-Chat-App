@@ -1,4 +1,4 @@
-package com.danjorn.utils
+package com.danjorn.views.custom
 
 import android.text.Editable
 import android.text.TextWatcher

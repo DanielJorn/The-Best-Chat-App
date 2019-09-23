@@ -39,6 +39,8 @@
     <string name="msg_choose_a_photo_for_chat">Choose a photo for chat</string>
     <string name="msg_upload_your_chat">Upload your chat</string>
     <string name="title_menu_go_to_test_chat">Go to test chat (This should be deleted!)</string>
+    <string name="error_fetching_chats">Something went wrong while we were fetching chats.</string>
+    <string name="action_refresh">Refresh</string>
 
 </resources>
 

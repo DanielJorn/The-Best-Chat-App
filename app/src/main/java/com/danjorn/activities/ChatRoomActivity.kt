@@ -3,7 +3,7 @@ package com.danjorn.activities
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.danjorn.models.database.MessagePojo
+import com.danjorn.models.MessagePojo
 import com.danjorn.views.R
 import com.danjorn.views.adapters.MessageAdapter
 import com.google.firebase.database.DataSnapshot

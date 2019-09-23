@@ -1,17 +1,21 @@
 package com.danjorn.coroutines
 
+import android.location.Location
+import com.danjorn.configs.MAX_RADIUS
+import com.danjorn.configs.sChatLocationNode
+import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation
 import com.firebase.geofire.GeoQuery
 import com.firebase.geofire.GeoQueryEventListener
 import com.google.firebase.database.DatabaseError
-import java.lang.Exception
+import com.google.firebase.database.FirebaseDatabase
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-suspend fun getListOfKeys(geoQuery: GeoQuery): ArrayList<String> =
+private suspend fun suspendGeoQuery(geoQuery: GeoQuery): ArrayList<Pair<String, GeoLocation>> =
         suspendCoroutine {
-            val keysList = ArrayList<String>()
+            val keysList = ArrayList<Pair<String, GeoLocation>>()
 
             geoQuery.addGeoQueryEventListener(object : GeoQueryEventListener{
                 override fun onGeoQueryReady() {
@@ -19,14 +23,14 @@ suspend fun getListOfKeys(geoQuery: GeoQuery): ArrayList<String> =
                 }
 
                 override fun onKeyEntered(key: String?, location: GeoLocation?) {
-                    keysList.add(key!!)
+                    keysList.add(key!! to location!!)
                 }
 
                 override fun onKeyMoved(key: String?, location: GeoLocation?) {
                 }
 
                 override fun onKeyExited(key: String?) {
-                    keysList.remove(key)
+                    //keysList.remove(key)
                 }
 
                 override fun onGeoQueryError(error: DatabaseError?) {
@@ -35,3 +39,9 @@ suspend fun getListOfKeys(geoQuery: GeoQuery): ArrayList<String> =
 
             })
         }
+
+suspend fun chatKeysInRadius(radius: Double, location: Location): ArrayList<Pair<String, GeoLocation>> {
+    val geoFire = GeoFire(FirebaseDatabase.getInstance().reference.child(sChatLocationNode))
+    val query = geoFire.queryAtLocation(GeoLocation(location.latitude, location.longitude), MAX_RADIUS)
+    return suspendGeoQuery(query)
+}

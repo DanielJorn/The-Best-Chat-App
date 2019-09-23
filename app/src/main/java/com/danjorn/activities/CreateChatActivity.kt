@@ -9,10 +9,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.danjorn.models.database.ChatPojo
-import com.danjorn.utils.OverflowTextWatcher
+import com.danjorn.models.ChatPojo
 import com.danjorn.viewModels.CreateChatViewModel
 import com.danjorn.views.R
+import com.danjorn.views.custom.OverflowTextWatcher
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import kotlinx.android.synthetic.main.activity_create_chat.*
 
@@ -20,7 +20,7 @@ private const val GALLERY_REQUEST_CODE = 1
 
 class CreateChatActivity : AppCompatActivity(), View.OnClickListener {
 
-    private var chatImage: String? = null
+    private var chatImageUri: String? = null
 
     private val tag = CreateChatActivity::class.java.simpleName
     private lateinit var viewModel: CreateChatViewModel
@@ -50,22 +50,8 @@ class CreateChatActivity : AppCompatActivity(), View.OnClickListener {
                 imageFromGallery()
             }
             R.id.btn_upload_chat -> {
-                //CheckAllFields(){
-                //  onFieldsNormal {
-                //      uploadChat
-                //  }
-                //  onFieldsUbnormal {
-                //      showToUserMistakes
-                //  }
-                //}
-                //Log.d(tag, "onClick: clicked")
-                //uploadChat(application, edit_chat_title.getText(), chatImage, edit_chat_radius.getText().toInt()) {
-                //    Toast.makeText(this, "success man", Toast.LENGTH_SHORT).show()
-                //}
-                //Toast.makeText(this, "the image is $chatImage", Toast.LENGTH_SHORT).show()
-
-                // LocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, )
-                val chatPojo = ChatPojo(edit_chat_title.getText(), chatImage, edit_chat_radius.getText().toInt())
+                val chatPojo = ChatPojo(null, edit_chat_title.getText(), chatImageUri, edit_chat_radius.getText().toInt()) //TODO I should upload image on firebase only AFTER user created a chat!
+                //upload chat image and get url
                 viewModel.uploadChat(this, chatPojo)
             }
         }
@@ -81,7 +67,7 @@ class CreateChatActivity : AppCompatActivity(), View.OnClickListener {
         when (requestCode) {
             GALLERY_REQUEST_CODE -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    chatImage = data?.data.toString()
+                    chatImageUri = data?.data.toString()
                     Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
 
                 } else Log.d(tag, "onActivityResult: something is wrong with image or whatever")

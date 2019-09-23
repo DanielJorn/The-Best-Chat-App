@@ -1,3 +1,4 @@
 package com.danjorn.configs
 
-val chatLocation = "chatLocation"
+const val sChatLocationNode = "chatLocation"
+const val sChatsNode = "chats"

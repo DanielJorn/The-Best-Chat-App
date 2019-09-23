@@ -12,10 +12,10 @@
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/chats_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="LinearLayoutManager"/>
+            app:layoutManager="LinearLayoutManager" />
 
     </LinearLayout>
 
@@ -24,8 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/row_chat_adapter"
+        app:headerLayout="@layout/item_chat"
         app:menu="@menu/main_nav_menu" />
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

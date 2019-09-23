@@ -1,24 +1,23 @@
 package com.danjorn.utils
 
 import android.net.Uri
+import android.util.Log
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
 
-object CloudStorageUtils {
+private const val tag = "CloudStorageUtils" //TODO How to use name of this class as tag using <class>::class.java.getSimpleName?
 
-    fun uploadFile(databasePath: String, uri: Uri, successCallback: (UploadTask.TaskSnapshot) -> Unit) {
+suspend fun uploadFile(databasePath: String, uri: Uri) {
 
-        val storageRef = FirebaseStorage.getInstance().reference
-        val ref = storageRef.child(databasePath)
+    val storageRef = FirebaseStorage.getInstance().reference
+    val ref = storageRef.child(databasePath)
 
-        ref.putFile(uri).addOnSuccessListener(successCallback)
+    ref.putFile(uri).addOnSuccessListener { Log.d(tag, "uploadFile: success. Path $databasePath") }
 
-    }
+}
 
-    fun getDownloadURL(databasePath: String, successCallback : (Uri) -> Unit) {
+fun getDownloadURL(databasePath: String, successCallback: (Uri) -> Unit) {
 
-        val reference = FirebaseStorage.getInstance().reference.child(databasePath)
+    val reference = FirebaseStorage.getInstance().reference.child(databasePath)
 
-        reference.downloadUrl.addOnSuccessListener(successCallback)
-    }
+    reference.downloadUrl.addOnSuccessListener(successCallback)
 }

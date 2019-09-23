@@ -3,32 +3,23 @@ package com.danjorn.activities
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.Application
 import android.content.DialogInterface
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
-import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import com.danjorn.configs.MAX_RADIUS
-import com.danjorn.configs.chatLocation
-import com.danjorn.coroutines.getListOfKeys
-import com.danjorn.coroutines.suspendLocation
-import com.danjorn.models.database.ChatPojo
-import com.danjorn.presenters.MainActivityPresenter
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.danjorn.models.ChatPojo
+import com.danjorn.viewModels.MainViewModel
 import com.danjorn.views.R
-import com.firebase.geofire.GeoFire
-import com.firebase.geofire.GeoLocation
+import com.danjorn.views.adapters.ChatAdapter
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.database.FirebaseDatabase
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 
 private const val RC_SIGN_IN = 1
@@ -37,10 +28,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private lateinit var barToggle: ActionBarDrawerToggle
 
-    private val presenter = MainActivityPresenter()
+    private lateinit var viewModel: MainViewModel
 
     private val tag = MainActivity::class.java.simpleName
 
+    private var chatsAdapter = ChatAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,37 +40,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         initDrawerLayout()
 
-        GlobalScope.launch(Dispatchers.Main.immediate) {
-            loadChats(application){
+        chats_recycler.adapter = chatsAdapter
 
-            }
-        }
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel.chatsLiveData.observe(this, Observer {
+            onChatChanged(it)
+        })
 
-
-        //MainViewModel(application).updateAvailableChats()?.observe(this, Observer {
-        //    recycler_view.adapter = ChatAdapter(this, it)
-        //})
     }
 
-
-    private suspend fun loadChats(application: Application, onFinish: () -> Unit) = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
-        GlobalScope.launch(Dispatchers.Main.immediate) {
-
-            val location = suspendLocation(application)
-            val listOfLocation = loadChatsWithRadius(location)
-
-
-            onFinish()
-        }
-    }
-
-    suspend fun loadChatsWithRadius(location: Location) : ArrayList<String>{
-        val geofireRef = FirebaseDatabase.getInstance().getReference(chatLocation)
-        val geoFire = GeoFire(geofireRef)
-        val geoQuery = geoFire.queryAtLocation(GeoLocation(location.latitude,
-                location.longitude), MAX_RADIUS.toDouble())
-
-        return getListOfKeys(geoQuery)
+    private fun onChatChanged(chatPojo: ChatPojo) {
+        chatsAdapter.addOrUpdateChat(chatPojo)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -96,15 +68,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         }
                         .setPositiveButton(getString(R.string.action_authenticate))
                         { _: DialogInterface, _: Int ->
-                            presenter.showLoginActivity(this, RC_SIGN_IN)
+                            viewModel.showLoginActivity(this, RC_SIGN_IN)
                         }
                 dialog.create().show()
-            } //TODO Bad creation of dialogs, same code in two places
+            }
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.actionbar_main, menu) //TODO Clean all these onWhatever methods
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return if (barToggle.onOptionsItemSelected(item)) true else super.onOptionsItemSelected(item)
+        if (barToggle.onOptionsItemSelected(item)) return true
+        else {
+            when (item?.itemId) {
+                R.id.action_refresh -> {
+                    refreshChats()
+                }
+            }
+        }
+        return false
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -119,12 +104,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.menu_action_go_to_test_chat -> {
                 val intent = Intent(this, ChatRoomActivity::class.java)
-                intent.putExtra("room", "TestChat")
+                intent.putExtra("room", "TestChat") //TODO Put something real at all
 
                 startActivity(intent)
             }
         }
         return true
+    }
+
+    private fun refreshChats() = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
+        viewModel.userUpdatesChats()
     }
 
     private fun initDrawerLayout() {

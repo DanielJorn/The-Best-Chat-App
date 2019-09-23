@@ -7,20 +7,20 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.danjorn.models.database.ChatPojo
-import com.danjorn.utils.PicassoUtils
+import com.danjorn.models.ChatPojo
 import com.danjorn.views.R
-
 import com.mikhaellopez.circularimageview.CircularImageView
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.row_chat_adapter.view.*
+import kotlinx.android.synthetic.main.item_chat.view.*
 
 
-class ChatAdapter(private val context: Context, private var chats: ArrayList<ChatPojo>) :
-    RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
+class ChatAdapter(private val context: Context) :
+        RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
+
+    private val chats: ArrayList<ChatPojo> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
-        val itemView = LayoutInflater.from(context).inflate(R.layout.row_chat_adapter, parent, false)
+        val itemView = LayoutInflater.from(context).inflate(R.layout.item_chat, parent, false)
         return ChatViewHolder(itemView)
     }
 
@@ -31,16 +31,39 @@ class ChatAdapter(private val context: Context, private var chats: ArrayList<Cha
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chatPojo = chats[position]
 
-        PicassoUtils.commonImageDownload(chatPojo.chatImageUrl, holder.chatImage)
+        // PicassoUtils.commonImageDownload(chatPojo.chatImageUrl, holder.chatImage)
         holder.chatTitle.text = chatPojo.title
-        //TODO PicassoUtils.commonImageDownload(chatPojo., holder.lastMessageSenderAvatar)
+        //PicassoUtils.commonImageDownload(chatPojo., holder.lastMessageSenderAvatar)
 
     }
 
-    fun setList(list : ArrayList<ChatPojo>){
-        chats.clear()
-        chats = list.clone() as ArrayList<ChatPojo>
-        this.notifyDataSetChanged()
+    fun addOrUpdateChat(requestChat: ChatPojo) {
+        if (chatExistsById(requestChat.id!!))
+            updateChat(requestChat)
+        else addChat(requestChat)
+    }
+
+    private fun addChat(requestChat: ChatPojo) {
+        chats.add(requestChat)
+        notifyItemInserted(chats.size)
+    }
+
+    private fun updateChat(requestChat: ChatPojo) {
+        val toUpdate = findChatById(requestChat.id!!)
+        toUpdate?.deepCopyFrom(requestChat)
+        notifyItemChanged(chats.indexOf(toUpdate))
+    }
+
+
+    private fun chatExistsById(id: String): Boolean {
+        return chats.any { it.id == id }
+    }
+
+    private fun findChatById(requestId: String): ChatPojo? {
+        chats.forEach {
+            if (it.id == requestId) return it
+        }
+        return null
     }
 
     class ChatViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {

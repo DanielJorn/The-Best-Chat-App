@@ -6,18 +6,18 @@ import com.danjorn.utils.location.DefaultLocationListener
 import com.yayandroid.locationmanager.LocationManager
 import com.yayandroid.locationmanager.configuration.DefaultProviderConfiguration
 import com.yayandroid.locationmanager.configuration.LocationConfiguration
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 suspend fun suspendLocation(application: Application): Location =
-        suspendCoroutine {
+        suspendCancellableCoroutine {
+            // I use cancelable coroutine because onLocationChanged can be triggered more than once
             LocationManager.Builder(application)
                     .notify(object : DefaultLocationListener() {
                         override fun onLocationChanged(location: Location?) {
-                            it.resume(location!!)
+                            if (!it.isCompleted)
+                                it.resume(location!!)
                         }
 
                         override fun onLocationFailed(type: Int) {
