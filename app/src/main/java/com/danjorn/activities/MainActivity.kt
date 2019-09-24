@@ -26,12 +26,11 @@ private const val RC_SIGN_IN = 1
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    private val tag = MainActivity::class.java.simpleName
+
     private lateinit var barToggle: ActionBarDrawerToggle
 
     private lateinit var viewModel: MainViewModel
-
-    private val tag = MainActivity::class.java.simpleName
-
     private var chatsAdapter = ChatAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {

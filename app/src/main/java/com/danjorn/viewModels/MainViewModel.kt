@@ -72,7 +72,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 val currentChatPojo = loadChatPojo(chatKey)
-                Log.d(tag, "userUpdatesChats: current pojo is $currentChatPojo")
+                Log.d(tag, "userUpdatesChats: current chat is $currentChatPojo")
 
                 if (userInChatZone(userLocation, chatLocation, currentChatPojo.radius)) {
                     loadedChats.value = currentChatPojo

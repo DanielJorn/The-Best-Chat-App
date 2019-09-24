@@ -8,7 +8,7 @@ data class ChatPojo(
         var chatImageUrl: String? = null,
         var radius: Int? = null
 ) : WithId() {
-
+    //TODO What is about last message????
     @Exclude
     fun deepCopyFrom(chatPojo: ChatPojo) {
         this.id = chatPojo.id
