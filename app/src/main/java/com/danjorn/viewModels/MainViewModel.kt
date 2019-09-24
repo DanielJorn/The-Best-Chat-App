@@ -58,10 +58,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-    fun userUpdatesChats() {
+    fun userRefreshChats(onComplete: () -> Unit) {
         viewModelScope.launch {
             val userLocation = suspendLocation(getApplication())
-            Log.d(tag, "userUpdatesChats: user location is $userLocation")
+            Log.d(tag, "userRefreshChats: user location is $userLocation")
             val availableKeys = chatKeysInRadius(MAX_RADIUS, userLocation)
 
             availableKeys.forEach { keyAndLocation ->
@@ -72,13 +72,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
 
                 val currentChatPojo = loadChatPojo(chatKey)
-                Log.d(tag, "userUpdatesChats: current chat is $currentChatPojo")
+                Log.d(tag, "userRefreshChats: current chat is $currentChatPojo")
 
                 if (userInChatZone(userLocation, chatLocation, currentChatPojo.radius)) {
                     loadedChats.value = currentChatPojo
                     startObserveChat(keyAndLocation.first)
                 }
             }
+            onComplete()
         }
     }
 

@@ -13,6 +13,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.danjorn.models.ChatPojo
 import com.danjorn.viewModels.MainViewModel
 import com.danjorn.views.R
@@ -24,11 +25,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 private const val RC_SIGN_IN = 1
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+        SwipeRefreshLayout.OnRefreshListener {
 
     private val tag = MainActivity::class.java.simpleName
 
     private lateinit var barToggle: ActionBarDrawerToggle
+    private lateinit var refreshLayout: SwipeRefreshLayout
 
     private lateinit var viewModel: MainViewModel
     private var chatsAdapter = ChatAdapter(this)
@@ -38,6 +41,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
 
         initDrawerLayout()
+        refreshLayout = refresh_layout
+        refreshLayout.setOnRefreshListener(this)
 
         chats_recycler.adapter = chatsAdapter
 
@@ -84,11 +89,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         else {
             when (item?.itemId) {
                 R.id.action_refresh -> {
+                    refreshLayout.isRefreshing = true
                     refreshChats()
                 }
             }
         }
         return false
+    }
+
+    override fun onRefresh() {
+        refreshChats()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -112,7 +122,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun refreshChats() = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
-        viewModel.userUpdatesChats()
+        viewModel.userRefreshChats {
+            refreshLayout.isRefreshing = false
+        }
     }
 
     private fun initDrawerLayout() {
