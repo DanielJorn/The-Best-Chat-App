@@ -1,5 +1,6 @@
-package com.danjorn.models
+package com.danjorn.models.db
 
+import com.danjorn.models.WithId
 import com.google.firebase.database.Exclude
 
 data class ChatPojo(

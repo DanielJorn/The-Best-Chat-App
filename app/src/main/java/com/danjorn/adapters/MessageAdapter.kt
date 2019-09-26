@@ -1,4 +1,4 @@
-package com.danjorn.views.adapters
+package com.danjorn.adapters
 
 import android.content.Context
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.danjorn.models.MessagePojo
+import com.danjorn.models.db.MessagePojo
 import com.danjorn.utils.PicassoUtils
 import com.danjorn.views.custom.message.BaseMessageView
 import com.danjorn.views.custom.message.ParticipateMessageView

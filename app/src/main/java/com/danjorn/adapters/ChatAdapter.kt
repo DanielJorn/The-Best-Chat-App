@@ -1,4 +1,4 @@
-package com.danjorn.views.adapters
+package com.danjorn.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.danjorn.models.ChatPojo
+import com.danjorn.models.db.ChatPojo
+import com.danjorn.utils.PicassoUtils
 import com.danjorn.views.R
 import com.mikhaellopez.circularimageview.CircularImageView
 import kotlinx.android.extensions.LayoutContainer
@@ -31,7 +32,7 @@ class ChatAdapter(private val context: Context) :
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chatPojo = chats[position]
 
-        // PicassoUtils.commonImageDownload(chatPojo.chatImageUrl, holder.chatImage)
+        PicassoUtils.commonImageDownload(chatPojo.chatImageUrl, holder.chatImage)
         holder.chatTitle.text = chatPojo.title
         //PicassoUtils.commonImageDownload(chatPojo., holder.lastMessageSenderAvatar)
 

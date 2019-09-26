@@ -14,17 +14,16 @@ import com.danjorn.coroutines.chatKeysInRadius
 import com.danjorn.coroutines.suspendDownload
 import com.danjorn.coroutines.suspendLocation
 import com.danjorn.ktx.getValueAndId
-import com.danjorn.models.ChatPojo
+import com.danjorn.ktx.toDatabaseRef
+import com.danjorn.models.db.ChatPojo
 import com.danjorn.viewModels.liveData.FirebaseObserveLiveData
 import com.firebase.ui.auth.AuthUI
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val tag = MainViewModel::class.java.simpleName
-    private val rootChatRef = sChatsNode.toDatabaseReference()
+    private val rootChatRef = sChatsNode.toDatabaseRef()
 
     private val chatUpdateObserver = FirebaseObserveLiveData(rootChatRef)
     private val loadedChats = MutableLiveData<ChatPojo>()
@@ -78,11 +77,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 requestCode,
                 null
         )
-    }
-
-    fun String.toDatabaseReference(): DatabaseReference { //TODO Put this somewhere in normal place
-        val rootRef = FirebaseDatabase.getInstance().reference
-        return rootRef.child(this)
     }
 
     private fun startObserveChat(chatId: String) {

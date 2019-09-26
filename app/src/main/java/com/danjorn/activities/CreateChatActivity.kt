@@ -2,6 +2,7 @@ package com.danjorn.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -9,7 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.danjorn.models.ChatPojo
+import com.danjorn.models.db.ChatPojo
 import com.danjorn.viewModels.CreateChatViewModel
 import com.danjorn.views.R
 import com.danjorn.views.custom.OverflowTextWatcher
@@ -20,7 +21,7 @@ private const val GALLERY_REQUEST_CODE = 1
 
 class CreateChatActivity : AppCompatActivity(), View.OnClickListener {
 
-    private var chatImageUri: String? = null
+    private var chatImageUri: Uri? = null
 
     private val tag = CreateChatActivity::class.java.simpleName
     private lateinit var viewModel: CreateChatViewModel
@@ -37,8 +38,9 @@ class CreateChatActivity : AppCompatActivity(), View.OnClickListener {
 
         viewModel = ViewModelProviders.of(this).get(CreateChatViewModel::class.java)
 
-        viewModel.liveData.observe(this, Observer {
+        viewModel.onChatCreatedLiveData.observe(this, Observer {
             Log.d(tag, "onCreate: the id of the chat is $it")
+            Toast.makeText(this, "SUCCESS", 1).show()
             //Go to the chat or say what error is :) (problems only with uploading/accessing to GPS)
         })
 
@@ -46,32 +48,34 @@ class CreateChatActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v!!.id) {
-            R.id.btn_choose_chat_image -> {
-                imageFromGallery()
-            }
-            R.id.btn_upload_chat -> {
-                val chatPojo = ChatPojo(null, edit_chat_title.getText(), chatImageUri, edit_chat_radius.getText().toInt()) //TODO I should upload image on firebase only AFTER user created a chat!
-                //upload chat image and get url
-                viewModel.uploadChat(this, chatPojo)
-            }
+            R.id.btn_choose_chat_image -> getImageFromGallery()
+            R.id.btn_upload_chat -> uploadChat()
         }
-    }
-
-    private fun imageFromGallery() = runWithPermissions(android.Manifest.permission.READ_EXTERNAL_STORAGE) {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, GALLERY_REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             GALLERY_REQUEST_CODE -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    chatImageUri = data?.data.toString()
+                    chatImageUri = data?.data
+                    image_preview.setImageURI(chatImageUri)
                     Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-
-                } else Log.d(tag, "onActivityResult: something is wrong with image or whatever")
+                }
             }
         }
+    }
+
+    private fun uploadChat() = runWithPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION) {
+        viewModel.uploadChat(this, createChatFromInput(), chatImageUri)
+    }
+
+    private fun createChatFromInput(): ChatPojo {
+        return ChatPojo(null, edit_chat_title.getText(), null, edit_chat_radius.getText().toInt())
+    }
+
+    private fun getImageFromGallery() = runWithPermissions(android.Manifest.permission.READ_EXTERNAL_STORAGE) {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, GALLERY_REQUEST_CODE)
     }
 }

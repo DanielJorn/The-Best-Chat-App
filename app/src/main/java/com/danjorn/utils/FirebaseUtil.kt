@@ -2,32 +2,39 @@ package com.danjorn.utils
 
 import android.app.Activity
 import android.location.Location
+import android.net.Uri
 import com.danjorn.configs.sChatLocationNode
+import com.danjorn.configs.sChatsImages
 import com.danjorn.configs.sChatsNode
 import com.danjorn.coroutines.suspendLocation
-import com.danjorn.models.ChatPojo
+import com.danjorn.ktx.toDatabaseRef
+import com.danjorn.models.db.ChatPojo
 import com.firebase.geofire.GeoLocation
 import com.firebase.geofire.core.GeoHash
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
+import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 private const val tag = "FirebaseUtils"
 
-suspend fun suspendUploadChat(activity: Activity, chatPojo: ChatPojo) {
+suspend fun suspendUploadChat(activity: Activity, chatPojo: ChatPojo, chatImageUri: Uri?,
+                              onComplete: (String) -> Unit) {
     val location = suspendLocation(activity.application)
 
-    //room for uploading image and getting url
+    val chatId = generateId()
 
+    if (chatImageUri != null) {
+        val uploadImagePath = "$sChatsImages/$chatId"
+        uploadFile(uploadImagePath, chatImageUri)
+        chatPojo.chatImageUrl = getDownloadURL(uploadImagePath)
+    }
 
-    val chatsRef = FirebaseDatabase.getInstance().reference.child(sChatsNode)
-    val chatId = chatsRef.push().key
-
-    val updateMap = getUpdateMap(location, chatPojo, chatId!!)
+    val updateMap = getUpdateMap(location, chatPojo, chatId)
     suspendCreateChat(updateMap)
 
-
+    onComplete(chatId)
 }
 
 private fun getUpdateMap(location: Location, chatPojo: ChatPojo, chatId: String): Map<String, Any> { //TODO updateMap?! Silly name I have to create some another. And has ugly signature
@@ -48,8 +55,13 @@ private fun getUpdateMap(location: Location, chatPojo: ChatPojo, chatId: String)
  * */
 
 private suspend fun suspendCreateChat(updateMap: Map<String, Any>) {
-    suspendCoroutine<String> { cont ->
+    suspendCoroutine<Unit?> { cont ->
         FirebaseDatabase.getInstance().reference.updateChildren(updateMap)
+                .addOnSuccessListener { cont.resume(null) }
                 .addOnFailureListener { cont.resumeWithException(it) }
     }
+}
+
+private fun generateId(): String {
+    return "".toDatabaseRef().push().key!!
 }

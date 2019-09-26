@@ -13,10 +13,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.danjorn.models.ChatPojo
+import com.danjorn.adapters.ChatAdapter
+import com.danjorn.models.db.ChatPojo
 import com.danjorn.viewModels.MainViewModel
 import com.danjorn.views.R
-import com.danjorn.views.adapters.ChatAdapter
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions

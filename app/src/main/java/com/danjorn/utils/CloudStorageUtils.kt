@@ -2,22 +2,25 @@ package com.danjorn.utils
 
 import android.net.Uri
 import android.util.Log
-import com.google.firebase.storage.FirebaseStorage
+import com.danjorn.ktx.toFirebaseStorageRef
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 private const val tag = "CloudStorageUtils" //TODO How to use name of this class as tag using <class>::class.java.getSimpleName?
 
-suspend fun uploadFile(databasePath: String, uri: Uri) {
+suspend fun uploadFile(storageRef: String, uri: Uri): Unit? = suspendCoroutine { cont ->
+    val ref = storageRef.toFirebaseStorageRef()
 
-    val storageRef = FirebaseStorage.getInstance().reference
-    val ref = storageRef.child(databasePath)
-
-    ref.putFile(uri).addOnSuccessListener { Log.d(tag, "uploadFile: success. Path $databasePath") }
-
+    ref.putFile(uri).addOnSuccessListener {
+        Log.d(tag, "uploadFile: success. Path $storageRef")
+        cont.resume(null)
+    }.addOnFailureListener {
+        cont.resumeWithException(it)
+    }
 }
 
-fun getDownloadURL(databasePath: String, successCallback: (Uri) -> Unit) {
-
-    val reference = FirebaseStorage.getInstance().reference.child(databasePath)
-
-    reference.downloadUrl.addOnSuccessListener(successCallback)
+suspend fun getDownloadURL(storagePath: String): String = suspendCoroutine { cont ->
+    val reference = storagePath.toFirebaseStorageRef()
+    reference.downloadUrl.addOnSuccessListener { cont.resume(it.toString()) }
 }
