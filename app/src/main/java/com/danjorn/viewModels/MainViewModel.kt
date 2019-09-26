@@ -3,7 +3,6 @@ package com.danjorn.viewModels
 import android.app.Activity
 import android.app.Application
 import android.location.Location
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MediatorLiveData
@@ -40,6 +39,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun userRefreshChats(onComplete: () -> Unit) {
+        viewModelScope.launch {
+            val userLocation = suspendLocation(getApplication())
+            val availableKeys = chatKeysInRadius(MAX_RADIUS, userLocation)
+
+            availableKeys.forEach { keyAndLocation ->
+                val chatKey = keyAndLocation.first
+                val chatLocation = Location("").apply {
+                    latitude = keyAndLocation.second.latitude
+                    longitude = keyAndLocation.second.longitude
+                }
+
+                val currentChatPojo = loadChatPojo(chatKey)
+
+                if (userInChatZone(userLocation, chatLocation, currentChatPojo.radius)) {
+                    loadedChats.value = currentChatPojo
+                    startObserveChat(keyAndLocation.first)
+                }
+            }
+            onComplete()
+        }
+    }
+
     fun showLoginActivity(activity: Activity, requestCode: Int) {
 
         val providers = arrayListOf(
@@ -58,32 +80,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-    fun userRefreshChats(onComplete: () -> Unit) {
-        viewModelScope.launch {
-            val userLocation = suspendLocation(getApplication())
-            Log.d(tag, "userRefreshChats: user location is $userLocation")
-            val availableKeys = chatKeysInRadius(MAX_RADIUS, userLocation)
-
-            availableKeys.forEach { keyAndLocation ->
-                val chatKey = keyAndLocation.first
-                val chatLocation = Location("").apply {
-                    latitude = keyAndLocation.second.latitude
-                    longitude = keyAndLocation.second.longitude
-                }
-
-                val currentChatPojo = loadChatPojo(chatKey)
-                Log.d(tag, "userRefreshChats: current chat is $currentChatPojo")
-
-                if (userInChatZone(userLocation, chatLocation, currentChatPojo.radius)) {
-                    loadedChats.value = currentChatPojo
-                    startObserveChat(keyAndLocation.first)
-                }
-            }
-            onComplete()
-        }
-    }
-
-    fun String.toDatabaseReference(): DatabaseReference {
+    fun String.toDatabaseReference(): DatabaseReference { //TODO Put this somewhere in normal place
         val rootRef = FirebaseDatabase.getInstance().reference
         return rootRef.child(this)
     }

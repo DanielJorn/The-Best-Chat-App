@@ -3,7 +3,6 @@ package com.danjorn.activities
 import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -19,6 +18,7 @@ import com.danjorn.viewModels.MainViewModel
 import com.danjorn.views.R
 import com.danjorn.views.adapters.ChatAdapter
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -40,42 +40,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+
+        if (!userLoggedIn()) {
+            showLoginActivity()
+        }
+
         initDrawerLayout()
         refreshLayout = refresh_layout
         refreshLayout.setOnRefreshListener(this)
 
         chats_recycler.adapter = chatsAdapter
 
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.chatsLiveData.observe(this, Observer {
             onChatChanged(it)
         })
-
-    }
-
-    private fun onChatChanged(chatPojo: ChatPojo) {
-        chatsAdapter.addOrUpdateChat(chatPojo)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            RC_SIGN_IN -> if (resultCode == Activity.RESULT_OK) {
-                Toast.makeText(this,
-                        getString(R.string.msg_successfully_signed_in),
-                        Toast.LENGTH_SHORT).show()
-            } else {
-                val dialog = AlertDialog.Builder(this)
-                        .setMessage(getString(R.string.msg_auth_necessary))
-                        .setNegativeButton(getString(R.string.action_leave_app))
-                        { _: DialogInterface, _: Int ->
-                            this.finishAffinity()
-                        }
-                        .setPositiveButton(getString(R.string.action_authenticate))
-                        { _: DialogInterface, _: Int ->
-                            viewModel.showLoginActivity(this, RC_SIGN_IN)
-                        }
-                dialog.create().show()
-            }
+            RC_SIGN_IN -> handleSignInResult(resultCode)
         }
     }
 
@@ -86,15 +70,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         if (barToggle.onOptionsItemSelected(item)) return true
-        else {
-            when (item?.itemId) {
-                R.id.action_refresh -> {
-                    refreshLayout.isRefreshing = true
-                    refreshChats()
-                }
+        when (item?.itemId) {
+            R.id.action_refresh -> {
+                refreshLayout.isRefreshing = true
+                refreshChats()
+                return true
             }
         }
-        return false
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onRefresh() {
@@ -121,10 +104,43 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    private fun onChatChanged(chatPojo: ChatPojo) {
+        chatsAdapter.addOrUpdateChat(chatPojo)
+    }
+
+    private fun userLoggedIn(): Boolean {
+        return FirebaseAuth.getInstance().currentUser != null
+    }
+
     private fun refreshChats() = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
         viewModel.userRefreshChats {
             refreshLayout.isRefreshing = false
         }
+    }
+
+    private fun handleSignInResult(resultCode: Int) {
+        if (resultCode == Activity.RESULT_OK) {
+            Toast.makeText(this, getString(R.string.msg_successfully_signed_in), Toast.LENGTH_SHORT).show()
+        } else {
+            showLoginDialog()
+        }
+    }
+
+    private fun showLoginActivity() {
+        viewModel.showLoginActivity(this, RC_SIGN_IN)
+    }
+
+    private fun showLoginDialog() {
+        val dialog = AlertDialog.Builder(this)
+                .setMessage(getString(R.string.msg_auth_necessary))
+                .setNegativeButton(getString(R.string.action_leave_app)) { _, _ ->
+                    this.finishAffinity()
+                }
+                .setPositiveButton(getString(R.string.action_authenticate))
+                { _, _ ->
+                    viewModel.showLoginActivity(this, RC_SIGN_IN)
+                }
+        dialog.create().show()
     }
 
     private fun initDrawerLayout() {
@@ -140,6 +156,3 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     } //TODO bad init of the drawer layout . Find way to simplify it. UPD: is the initDrawerLayout a hack?
 }
-
-
-
