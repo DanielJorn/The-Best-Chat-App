@@ -19,6 +19,9 @@ private suspend fun suspendGeoQuery(geoQuery: GeoQuery): ArrayList<Pair<String, 
 
             geoQuery.addGeoQueryEventListener(object : GeoQueryEventListener{
                 override fun onGeoQueryReady() {
+                    // We should always remove listener, because this listener changes array list.
+                    // Listener can produce ConcurrentModificationException.
+                    geoQuery.removeGeoQueryEventListener(this)
                     it.resume(keysList)
                 }
 
