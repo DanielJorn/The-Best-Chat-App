@@ -1,7 +1,7 @@
 package com.danjorn.coroutines
 
 import android.location.Location
-import com.danjorn.configs.sChatLocationNode
+import com.danjorn.database.CHAT_LOCATION
 import com.danjorn.ktx.toDatabaseRef
 import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation
@@ -13,7 +13,7 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 suspend fun chatsInRadius(radius: Double, location: Location): ArrayList<Pair<String, Location>> {
-    val geoFire = GeoFire(sChatLocationNode.toDatabaseRef())
+    val geoFire = GeoFire(CHAT_LOCATION.toDatabaseRef())
     val query = geoFire.queryAtLocation(GeoLocation(location.latitude, location.longitude), radius)
     return suspendGeoQuery(query)
 }

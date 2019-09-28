@@ -3,7 +3,7 @@ package com.danjorn.ui.chatRoom
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.danjorn.configs.sMessagesNode
+import com.danjorn.database.MESSAGES
 import com.danjorn.ktx.toDatabaseRef
 import com.danjorn.models.MessageResponse
 import com.danjorn.ui.chatRoom.list.MessageAdapter
@@ -30,7 +30,7 @@ class ChatRoomActivity : AppCompatActivity() {
 
         //get ref
 
-        val chatMessages = "$sMessagesNode/$chatId".toDatabaseRef()
+        val chatMessages = "$MESSAGES/$chatId".toDatabaseRef()
 
         val pojoList = ArrayList<MessageResponse>()
 

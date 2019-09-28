@@ -3,10 +3,10 @@ package com.danjorn.utils
 import android.app.Activity
 import android.location.Location
 import android.net.Uri
-import com.danjorn.configs.sChatsImages
+import com.danjorn.configs.CHATS_IMAGES
 import com.danjorn.coroutines.suspendLocation
-import com.danjorn.database.sChatLocationNode
-import com.danjorn.database.sChatsNode
+import com.danjorn.database.CHATS
+import com.danjorn.database.CHAT_LOCATION
 import com.danjorn.ktx.toDatabaseRef
 import com.danjorn.models.ChatResponse
 import com.firebase.geofire.GeoLocation
@@ -37,16 +37,16 @@ suspend fun suspendUploadChat(activity: Activity, chatResponse: ChatResponse, ch
     onComplete(chatId)
 }
 
-fun getUploadImagePath(chatId: String): String = "$sChatsImages/$chatId/chat_photo"
+fun getUploadImagePath(chatId: String): String = "$CHATS_IMAGES/$chatId/chat_photo"
 
 private fun getUpdateMap(location: Location, chatResponse: ChatResponse, chatId: String): Map<String, Any> { //TODO updateMap?! Silly name I have to create some another. And has ugly signature
     val geoLocation = GeoLocation(location.latitude, location.longitude)
     val geoHash = GeoHash(geoLocation)
     val map = HashMap<String, Any>()
 
-    map["/$sChatsNode/$chatId"] = chatResponse
-    map["/$sChatLocationNode/$chatId/g"] = geoHash.geoHashString
-    map["/$sChatLocationNode/$chatId/l"] = listOf(location.latitude, location.longitude)
+    map["/$CHATS/$chatId"] = chatResponse
+    map["/$CHAT_LOCATION/$chatId/g"] = geoHash.geoHashString
+    map["/$CHAT_LOCATION/$chatId/l"] = listOf(location.latitude, location.longitude)
 
     return map
 }

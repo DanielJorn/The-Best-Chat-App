@@ -1,3 +1,3 @@
 package com.danjorn.configs
 
-const val sChatsImages = "chatImages"
+const val CHATS_IMAGES = "chatImages"

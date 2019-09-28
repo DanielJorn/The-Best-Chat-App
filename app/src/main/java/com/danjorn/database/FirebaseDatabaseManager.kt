@@ -2,7 +2,6 @@ package com.danjorn.database
 
 import android.location.Location
 import com.danjorn.configs.MAX_RADIUS
-import com.danjorn.configs.sChatsNode
 import com.danjorn.coroutines.chatsInRadius
 import com.danjorn.coroutines.downloadFrom
 import com.danjorn.ktx.toDatabaseRef
@@ -13,7 +12,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class FirebaseDatabaseManager : DatabaseManager {
-    private val chatsReference = sChatsNode.toDatabaseRef()
+    private val chatsReference = CHATS.toDatabaseRef()
 
     override fun getAvailableChats(userLocation: Location,
                                    onComplete: () -> Unit,

@@ -5,8 +5,8 @@ import android.app.Application
 import android.location.Location
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.*
-import com.danjorn.configs.sChatsNode
 import com.danjorn.coroutines.suspendLocation
+import com.danjorn.database.CHATS
 import com.danjorn.database.FirebaseDatabaseManager
 import com.danjorn.ktx.getValueAndId
 import com.danjorn.ktx.toDatabaseRef
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 class AvailableChatsViewModel(application: Application) : AndroidViewModel(application) {
 
     private val tag = AvailableChatsViewModel::class.java.simpleName
-    private val rootChatRef = sChatsNode.toDatabaseRef()
+    private val rootChatRef = CHATS.toDatabaseRef()
     private val databaseManager = FirebaseDatabaseManager()
 
     private val _databaseErrorLiveData = MutableLiveData<Throwable>()
