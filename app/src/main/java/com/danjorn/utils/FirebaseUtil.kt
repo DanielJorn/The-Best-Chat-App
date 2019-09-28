@@ -26,7 +26,7 @@ suspend fun suspendUploadChat(activity: Activity, chatResponse: ChatResponse, ch
     val chatId = generateId()
 
     if (chatImageUri != null) {
-        val uploadImagePath = "$sChatsImages/$chatId/chat_photo"
+        val uploadImagePath = getUploadImagePath(chatId)
         uploadFile(uploadImagePath, chatImageUri)
         chatResponse.chatImageUrl = getDownloadURL(uploadImagePath)
     }
@@ -36,6 +36,8 @@ suspend fun suspendUploadChat(activity: Activity, chatResponse: ChatResponse, ch
 
     onComplete(chatId)
 }
+
+fun getUploadImagePath(chatId: String): String = "$sChatsImages/$chatId/chat_photo"
 
 private fun getUpdateMap(location: Location, chatResponse: ChatResponse, chatId: String): Map<String, Any> { //TODO updateMap?! Silly name I have to create some another. And has ugly signature
     val geoLocation = GeoLocation(location.latitude, location.longitude)
