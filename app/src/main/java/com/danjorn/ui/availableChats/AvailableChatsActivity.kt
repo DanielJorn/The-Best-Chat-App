@@ -22,7 +22,7 @@ import com.danjorn.views.R
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_available_chats.*
 
 private const val RC_SIGN_IN = 1
 
@@ -39,7 +39,7 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_available_chats)
 
         viewModel = ViewModelProviders.of(this).get(AvailableChatsViewModel::class.java)
 
@@ -51,7 +51,7 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
         refreshLayout = refresh_layout
         refreshLayout.setOnRefreshListener(this)
 
-        chats_recycler.adapter = chatsAdapter
+        available_chats.adapter = chatsAdapter
 
         viewModel.chatsLiveData.observe(this, Observer {
             onChatChanged(it)
@@ -143,7 +143,7 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
     private fun initDrawerLayout() {
 
-        val navView = main_nav_layout
+        val navView = available_chats_nav_view
         val drawerLayout = main_drawer_layout
 
         navView.setNavigationItemSelectedListener(this)

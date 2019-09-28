@@ -12,7 +12,7 @@ class UserMessageView : BaseMessageView {
             defStyleAttr)
 
     override fun getLayoutId(): Int {
-        return R.layout.user_message
+        return R.layout.message_user
     }
 
 }

@@ -26,7 +26,7 @@ class OneLineInputLayout : TextInputLayout {
 
 
     private fun init(attrs: AttributeSet?, defStyle: Int) {
-        inflate(context, R.layout.one_line_input_layout, this)
+        inflate(context, R.layout.view_one_line_input_layout, this)
         val a = context.obtainStyledAttributes(attrs, R.styleable.OneLineInputLayout, defStyle, 0)
 
         val inputType = a.getInt(R.styleable.OneLineInputLayout_android_inputType, EditorInfo.TYPE_NULL)

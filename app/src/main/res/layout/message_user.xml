@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/user_message_text"
-        layout="@layout/text_of_message"
+        layout="@layout/message_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/message_margin_from_screen_edge"
@@ -20,7 +20,7 @@
 
     <include
         android:id="@+id/user_avatar"
-        layout="@layout/sender_avatar"
+        layout="@layout/message_sender_avatar"
         android:layout_width="@dimen/sender_avatar_size"
         android:layout_height="@dimen/sender_avatar_size"
         app:layout_constraintEnd_toEndOf="parent"

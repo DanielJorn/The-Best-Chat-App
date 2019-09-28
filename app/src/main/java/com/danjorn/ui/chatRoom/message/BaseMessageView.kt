@@ -7,8 +7,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
-import kotlinx.android.synthetic.main.sender_avatar.view.*
-import kotlinx.android.synthetic.main.text_of_message.view.*
+import kotlinx.android.synthetic.main.message_sender_avatar.view.*
+import kotlinx.android.synthetic.main.message_text.view.*
 
 abstract class BaseMessageView : FrameLayout {
 

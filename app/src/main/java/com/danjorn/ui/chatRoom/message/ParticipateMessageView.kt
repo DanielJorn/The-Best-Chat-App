@@ -12,6 +12,6 @@ class ParticipateMessageView : BaseMessageView {
             defStyleAttr)
 
     override fun getLayoutId(): Int {
-        return R.layout.participate_messasge
+        return R.layout.messasge_participate
     }
 }

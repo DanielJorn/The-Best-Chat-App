@@ -4,11 +4,10 @@
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/message_upper_margin">
 
-    <include
-        layout="@layout/sender_avatar"/>
+    <include layout="@layout/message_sender_avatar" />
 
     <include
-        layout="@layout/text_of_message"
+        layout="@layout/message_text"
         android:layout_marginRight="@dimen/message_margin_from_screen_edge"
         android:layout_marginLeft="@dimen/message_text_margin_from_avatar"
         android:layout_width="match_parent"

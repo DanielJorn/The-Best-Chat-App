@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    tools:openDrawer="start">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
@@ -11,7 +12,7 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chats_recycler"
+            android:id="@+id/available_chats"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager" />
@@ -19,11 +20,11 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/main_nav_layout"
-        android:layout_width="wrap_content"
+        android:id="@+id/available_chats_nav_view"
+        android:layout_width="@dimen/nav_view_width"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/item_chat"
-        app:menu="@menu/main_nav_menu" />
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/available_chat_nav_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
