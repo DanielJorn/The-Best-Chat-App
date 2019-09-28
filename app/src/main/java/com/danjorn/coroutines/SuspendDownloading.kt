@@ -9,7 +9,12 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-suspend fun <T> suspendDownload(databaseRef: DatabaseReference, clazz: Class<T>): T? =
+/**
+ * Downloads data from given reference and automatically maps it to given class
+ * @param databaseRef reference from which you want to download data
+ * @param clazz class to map data from DataSnapshot. If this is [WithId], maps id from snapshot
+ * */
+suspend fun <T> downloadFrom(databaseRef: DatabaseReference, clazz: Class<T>): T? =
         suspendCoroutine {
             databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {

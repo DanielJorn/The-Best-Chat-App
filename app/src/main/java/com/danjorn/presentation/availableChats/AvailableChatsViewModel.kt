@@ -4,19 +4,14 @@ import android.app.Activity
 import android.app.Application
 import android.location.Location
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.danjorn.configs.MAX_RADIUS
+import androidx.lifecycle.*
 import com.danjorn.configs.sChatsNode
-import com.danjorn.coroutines.chatKeysInRadius
-import com.danjorn.coroutines.suspendDownload
 import com.danjorn.coroutines.suspendLocation
+import com.danjorn.database.FirebaseDatabaseManager
 import com.danjorn.ktx.getValueAndId
 import com.danjorn.ktx.toDatabaseRef
 import com.danjorn.models.ChatResponse
-import com.danjorn.presentation.availableChats.liveData.FirebaseObserveLiveData
+import com.danjorn.utils.liveData.FirebaseObserveLiveData
 import com.firebase.ui.auth.AuthUI
 import kotlinx.coroutines.launch
 
@@ -24,6 +19,13 @@ class AvailableChatsViewModel(application: Application) : AndroidViewModel(appli
 
     private val tag = AvailableChatsViewModel::class.java.simpleName
     private val rootChatRef = sChatsNode.toDatabaseRef()
+    private val databaseManager = FirebaseDatabaseManager()
+
+    private val _databaseErrorLiveData = MutableLiveData<Throwable>()
+    val databaseErrorLiveData: LiveData<Throwable> = _databaseErrorLiveData
+
+    private val _locationErrorLiveData = MutableLiveData<Throwable>()
+    val locationErrorLiveData: LiveData<Throwable> = _locationErrorLiveData
 
     private val chatUpdateObserver = FirebaseObserveLiveData(rootChatRef)
     private val loadedChats = MutableLiveData<ChatResponse>()
@@ -39,26 +41,19 @@ class AvailableChatsViewModel(application: Application) : AndroidViewModel(appli
     }
 
     fun userRefreshChats(onComplete: () -> Unit) {
-        viewModelScope.launch {
-            val userLocation = suspendLocation(getApplication())
-            val availableKeys = chatKeysInRadius(MAX_RADIUS, userLocation)
-
-            availableKeys.forEach { keyAndLocation ->
-                val chatKey = keyAndLocation.first
-                val chatLocation = Location("").apply {
-                    latitude = keyAndLocation.second.latitude
-                    longitude = keyAndLocation.second.longitude
-                }
-
-                val currentChatPojo = loadChatPojo(chatKey)
-
-                if (userInChatZone(userLocation, chatLocation, currentChatPojo.radius)) {
-                    loadedChats.value = currentChatPojo
-                    startObserveChat(keyAndLocation.first)
-                }
-            }
-            onComplete()
+        getUserLocation { location ->
+            databaseManager.getAvailableChats(location,
+                    onComplete = onComplete,
+                    onChatGot = {
+                        startObserveChat(it.id!!)
+                        //loadedChats.value = it // We have to map it to Ui version of Chat in Manager...
+                    },
+                    onError = this::notifyDatabaseError)
         }
+    }
+
+    private fun notifyDatabaseError(error: Throwable) {
+        _databaseErrorLiveData.value = error
     }
 
     fun showLoginActivity(activity: Activity, requestCode: Int) {
@@ -83,13 +78,14 @@ class AvailableChatsViewModel(application: Application) : AndroidViewModel(appli
         chatUpdateObserver.addUpdateListener(chatId)
     }
 
-    private fun userInChatZone(userLocation: Location, chatLocation: Location, chatRadius: Int?): Boolean {
-        val distanceToChat = userLocation.distanceTo(chatLocation) / 1000 //Convert to Km
-        return distanceToChat < chatRadius!!
-    }
-
-    private suspend fun loadChatPojo(chatKey: String): ChatResponse {
-        val toDownloadRef = rootChatRef.child(chatKey)
-        return suspendDownload(toDownloadRef, ChatResponse::class.java)!!
+    private fun getUserLocation(onLocationGot: (Location) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val location = suspendLocation(getApplication())
+                onLocationGot(location)
+            } catch (error: Throwable) {
+                _locationErrorLiveData.value = error
+            }
+        }
     }
 }

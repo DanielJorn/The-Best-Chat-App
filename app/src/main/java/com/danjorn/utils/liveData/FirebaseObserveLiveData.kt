@@ -1,4 +1,4 @@
-package com.danjorn.presentation.availableChats.liveData
+package com.danjorn.utils.liveData
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.database.DataSnapshot

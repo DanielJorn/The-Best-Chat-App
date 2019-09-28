@@ -53,9 +53,13 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
         available_chats.adapter = chatsAdapter
 
-        viewModel.chatsLiveData.observe(this, Observer {
-            onChatChanged(it)
-        })
+        setUpLiveDataListeners()
+    }
+
+    private fun setUpLiveDataListeners() {
+        viewModel.chatsLiveData.observe(this, Observer { onChatChanged(it) })
+        viewModel.locationErrorLiveData.observe(this, Observer { onLocationError(it) })
+        viewModel.databaseErrorLiveData.observe(this, Observer { onDatabaseError(it) })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -104,6 +108,18 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
     private fun handleGoToTestChat() {
         openChat("TestChat")
+    }
+
+    private fun onDatabaseError(error: Throwable) {
+        //TODO make it more verbose
+        Toast.makeText(this, "There is a problem with a chat getting!", Toast.LENGTH_LONG).show()
+        refreshLayout.isRefreshing = false
+    }
+
+    private fun onLocationError(error: Throwable) {
+        //TODO make it more verbose
+        Toast.makeText(this, "There is a problem with a location getting!", Toast.LENGTH_LONG).show()
+        refreshLayout.isRefreshing = false
     }
 
     private fun onChatChanged(chatResponse: ChatResponse) {

@@ -12,9 +12,15 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-private suspend fun suspendGeoQuery(geoQuery: GeoQuery): ArrayList<Pair<String, GeoLocation>> =
+suspend fun chatsInRadius(radius: Double, location: Location): ArrayList<Pair<String, Location>> {
+    val geoFire = GeoFire(sChatLocationNode.toDatabaseRef())
+    val query = geoFire.queryAtLocation(GeoLocation(location.latitude, location.longitude), radius)
+    return suspendGeoQuery(query)
+}
+
+private suspend fun suspendGeoQuery(geoQuery: GeoQuery): ArrayList<Pair<String, Location>> =
         suspendCoroutine {
-            val keysList = ArrayList<Pair<String, GeoLocation>>()
+            val keysList = ArrayList<Pair<String, Location>>()
 
             geoQuery.addGeoQueryEventListener(object : GeoQueryEventListener {
                 override fun onGeoQueryReady() {
@@ -25,25 +31,25 @@ private suspend fun suspendGeoQuery(geoQuery: GeoQuery): ArrayList<Pair<String, 
                 }
 
                 override fun onKeyEntered(key: String?, location: GeoLocation?) {
-                    keysList.add(key!! to location!!)
+                    keysList.add(key!! to location!!.toStandardLocation())
                 }
 
-                override fun onKeyMoved(key: String?, location: GeoLocation?) {
-                }
+                override fun onKeyMoved(key: String?, location: GeoLocation?) = Unit
 
                 override fun onKeyExited(key: String?) {
                     keysList.removeIf { pair -> pair.first == key }
                 }
 
                 override fun onGeoQueryError(error: DatabaseError?) {
-                    it.resumeWithException(Exception("There is a problem with fetching chats!"))
+                    it.resumeWithException(Exception("There is a problem with fetching chats locations!"))
                 }
-
             })
         }
 
-suspend fun chatKeysInRadius(radius: Double, location: Location): ArrayList<Pair<String, GeoLocation>> {
-    val geoFire = GeoFire(sChatLocationNode.toDatabaseRef())
-    val query = geoFire.queryAtLocation(GeoLocation(location.latitude, location.longitude), radius)
-    return suspendGeoQuery(query)
+private fun GeoLocation.toStandardLocation(): Location {
+    val result = Location("")
+    result.latitude = this.latitude
+    result.longitude = result.longitude
+
+    return result
 }
