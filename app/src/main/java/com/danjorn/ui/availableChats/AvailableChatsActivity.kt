@@ -144,7 +144,7 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
     private fun initDrawerLayout() {
 
         val navView = available_chats_nav_view
-        val drawerLayout = main_drawer_layout
+        val drawerLayout = available_chats_drawer_layout
 
         navView.setNavigationItemSelectedListener(this)
         navView.itemIconTintList = null

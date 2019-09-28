@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/available_chats_drawer_layout"
     android:layout_height="match_parent"
     tools:openDrawer="start">
 
