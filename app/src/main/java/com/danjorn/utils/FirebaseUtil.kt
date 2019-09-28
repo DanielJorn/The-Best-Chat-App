@@ -3,10 +3,10 @@ package com.danjorn.utils
 import android.app.Activity
 import android.location.Location
 import android.net.Uri
-import com.danjorn.configs.sChatLocationNode
 import com.danjorn.configs.sChatsImages
-import com.danjorn.configs.sChatsNode
 import com.danjorn.coroutines.suspendLocation
+import com.danjorn.database.sChatLocationNode
+import com.danjorn.database.sChatsNode
 import com.danjorn.ktx.toDatabaseRef
 import com.danjorn.models.ChatResponse
 import com.firebase.geofire.GeoLocation
@@ -26,7 +26,7 @@ suspend fun suspendUploadChat(activity: Activity, chatResponse: ChatResponse, ch
     val chatId = generateId()
 
     if (chatImageUri != null) {
-        val uploadImagePath = "$sChatsImages/$chatId"
+        val uploadImagePath = "$sChatsImages/$chatId/chat_photo"
         uploadFile(uploadImagePath, chatImageUri)
         chatResponse.chatImageUrl = getDownloadURL(uploadImagePath)
     }
