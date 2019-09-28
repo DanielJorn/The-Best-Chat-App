@@ -8,7 +8,7 @@ import com.danjorn.configs.sChatsImages
 import com.danjorn.configs.sChatsNode
 import com.danjorn.coroutines.suspendLocation
 import com.danjorn.ktx.toDatabaseRef
-import com.danjorn.models.db.ChatPojo
+import com.danjorn.models.ChatResponse
 import com.firebase.geofire.GeoLocation
 import com.firebase.geofire.core.GeoHash
 import com.google.firebase.database.FirebaseDatabase
@@ -19,7 +19,7 @@ import kotlin.coroutines.suspendCoroutine
 
 private const val tag = "FirebaseUtils"
 
-suspend fun suspendUploadChat(activity: Activity, chatPojo: ChatPojo, chatImageUri: Uri?,
+suspend fun suspendUploadChat(activity: Activity, chatResponse: ChatResponse, chatImageUri: Uri?,
                               onComplete: (String) -> Unit) {
     val location = suspendLocation(activity.application)
 
@@ -28,21 +28,21 @@ suspend fun suspendUploadChat(activity: Activity, chatPojo: ChatPojo, chatImageU
     if (chatImageUri != null) {
         val uploadImagePath = "$sChatsImages/$chatId"
         uploadFile(uploadImagePath, chatImageUri)
-        chatPojo.chatImageUrl = getDownloadURL(uploadImagePath)
+        chatResponse.chatImageUrl = getDownloadURL(uploadImagePath)
     }
 
-    val updateMap = getUpdateMap(location, chatPojo, chatId)
+    val updateMap = getUpdateMap(location, chatResponse, chatId)
     suspendCreateChat(updateMap)
 
     onComplete(chatId)
 }
 
-private fun getUpdateMap(location: Location, chatPojo: ChatPojo, chatId: String): Map<String, Any> { //TODO updateMap?! Silly name I have to create some another. And has ugly signature
+private fun getUpdateMap(location: Location, chatResponse: ChatResponse, chatId: String): Map<String, Any> { //TODO updateMap?! Silly name I have to create some another. And has ugly signature
     val geoLocation = GeoLocation(location.latitude, location.longitude)
     val geoHash = GeoHash(geoLocation)
     val map = HashMap<String, Any>()
 
-    map["/$sChatsNode/$chatId"] = chatPojo
+    map["/$sChatsNode/$chatId"] = chatResponse
     map["/$sChatLocationNode/$chatId/g"] = geoHash.geoHashString
     map["/$sChatLocationNode/$chatId/l"] = listOf(location.latitude, location.longitude)
 

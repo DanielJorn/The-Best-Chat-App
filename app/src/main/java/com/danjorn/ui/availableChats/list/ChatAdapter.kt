@@ -1,4 +1,4 @@
-package com.danjorn.adapters
+package com.danjorn.ui.availableChats.list
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.danjorn.models.db.ChatPojo
+import com.danjorn.models.ChatResponse
 import com.danjorn.utils.PicassoUtils
 import com.danjorn.views.R
 import com.mikhaellopez.circularimageview.CircularImageView
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.item_chat.view.*
 class ChatAdapter(private val context: Context) :
         RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
-    private val chats: ArrayList<ChatPojo> = ArrayList()
+    private val chats: ArrayList<ChatResponse> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.item_chat, parent, false)
@@ -38,18 +38,18 @@ class ChatAdapter(private val context: Context) :
 
     }
 
-    fun addOrUpdateChat(requestChat: ChatPojo) {
+    fun addOrUpdateChat(requestChat: ChatResponse) {
         if (chatExistsById(requestChat.id!!))
             updateChat(requestChat)
         else addChat(requestChat)
     }
 
-    private fun addChat(requestChat: ChatPojo) {
+    private fun addChat(requestChat: ChatResponse) {
         chats.add(requestChat)
         notifyItemInserted(chats.size)
     }
 
-    private fun updateChat(requestChat: ChatPojo) {
+    private fun updateChat(requestChat: ChatResponse) {
         val toUpdate = findChatById(requestChat.id!!)
         toUpdate?.deepCopyFrom(requestChat)
         notifyItemChanged(chats.indexOf(toUpdate))
@@ -60,7 +60,7 @@ class ChatAdapter(private val context: Context) :
         return chats.any { it.id == id }
     }
 
-    private fun findChatById(requestId: String): ChatPojo? {
+    private fun findChatById(requestId: String): ChatResponse? {
         chats.forEach {
             if (it.id == requestId) return it
         }

@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.danjorn.views.com.danjorn.activities.CreateChatActivity">
+    tools:context="com.danjorn.ui.createChat.CreateChatActivity">
 
-    <com.danjorn.views.custom.OneLineInputLayout
+    <com.danjorn.ui.createChat.input.OneLineInputLayout
         android:id="@+id/edit_chat_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
         app:hintAnimationEnabled="true" />
 
 
-    <com.danjorn.views.custom.OneLineInputLayout
+    <com.danjorn.ui.createChat.input.OneLineInputLayout
         android:id="@+id/edit_chat_radius"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

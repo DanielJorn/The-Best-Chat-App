@@ -1,13 +1,11 @@
-package com.danjorn.views.custom.message
+package com.danjorn.ui.chatRoom.message
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.sender_avatar.view.*
 import kotlinx.android.synthetic.main.text_of_message.view.*

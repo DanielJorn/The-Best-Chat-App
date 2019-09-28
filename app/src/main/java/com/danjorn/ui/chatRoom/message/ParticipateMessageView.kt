@@ -1,4 +1,4 @@
-package com.danjorn.views.custom.message
+package com.danjorn.ui.chatRoom.message
 
 import android.content.Context
 import android.util.AttributeSet

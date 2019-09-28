@@ -1,4 +1,4 @@
-package com.danjorn.views.custom
+package com.danjorn.ui.createChat.input
 
 import android.text.Editable
 import android.text.TextWatcher

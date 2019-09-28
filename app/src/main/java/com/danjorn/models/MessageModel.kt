@@ -1,9 +1,8 @@
-package com.danjorn.models.db
+package com.danjorn.models
 
-import com.danjorn.models.WithId
 import com.google.firebase.database.Exclude
 
-data class MessagePojo(
+data class MessageResponse(
         @Exclude
         override var id: String?,
         @Exclude
@@ -12,4 +11,12 @@ data class MessagePojo(
         var authorId: String? = null,
         var messageText: String? = null,
         var timestamp: Long? = null
+) : WithId()
+
+data class Message(
+        override var id: String? = null,
+        var chatId: String? = null,
+        var messageText: String = "",
+        var authorUser: User = User(),
+        var timestamp: Long = 0
 ) : WithId()

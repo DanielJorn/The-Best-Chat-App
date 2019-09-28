@@ -1,4 +1,4 @@
-package com.danjorn.viewModels
+package com.danjorn.presentation.availableChats
 
 import android.app.Activity
 import android.app.Application
@@ -15,22 +15,22 @@ import com.danjorn.coroutines.suspendDownload
 import com.danjorn.coroutines.suspendLocation
 import com.danjorn.ktx.getValueAndId
 import com.danjorn.ktx.toDatabaseRef
-import com.danjorn.models.db.ChatPojo
-import com.danjorn.viewModels.liveData.FirebaseObserveLiveData
+import com.danjorn.models.ChatResponse
+import com.danjorn.presentation.availableChats.liveData.FirebaseObserveLiveData
 import com.firebase.ui.auth.AuthUI
 import kotlinx.coroutines.launch
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class AvailableChatsViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val tag = MainViewModel::class.java.simpleName
+    private val tag = AvailableChatsViewModel::class.java.simpleName
     private val rootChatRef = sChatsNode.toDatabaseRef()
 
     private val chatUpdateObserver = FirebaseObserveLiveData(rootChatRef)
-    private val loadedChats = MutableLiveData<ChatPojo>()
+    private val loadedChats = MutableLiveData<ChatResponse>()
 
-    val chatsLiveData = MediatorLiveData<ChatPojo>().apply {
+    val chatsLiveData = MediatorLiveData<ChatResponse>().apply {
         addSource(chatUpdateObserver) { snapshot ->
-            val chatPojo = snapshot.getValueAndId(ChatPojo::class.java)
+            val chatPojo = snapshot.getValueAndId(ChatResponse::class.java)
             this.value = chatPojo
         }
         addSource(loadedChats) { chatPojo ->
@@ -88,8 +88,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return distanceToChat < chatRadius!!
     }
 
-    private suspend fun loadChatPojo(chatKey: String): ChatPojo {
+    private suspend fun loadChatPojo(chatKey: String): ChatResponse {
         val toDownloadRef = rootChatRef.child(chatKey)
-        return suspendDownload(toDownloadRef, ChatPojo::class.java)!!
+        return suspendDownload(toDownloadRef, ChatResponse::class.java)!!
     }
 }

@@ -2,7 +2,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class MainViewModelTest {//TODO Well, I should do something with it...
+class AvailableChatsViewModelTest {//TODO Well, I should do something with it...
 
     @Before
     fun setUp() {

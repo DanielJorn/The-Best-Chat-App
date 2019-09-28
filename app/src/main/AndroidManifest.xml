@@ -14,9 +14,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name="com.danjorn.activities.ChatRoomActivity" />
-        <activity android:name="com.danjorn.activities.CreateChatActivity" />
-        <activity android:name="com.danjorn.activities.MainActivity">
+        <activity android:name="com.danjorn.ui.chatRoom.ChatRoomActivity" />
+        <activity android:name="com.danjorn.ui.createChat.CreateChatActivity" />
+        <activity android:name="com.danjorn.ui.availableChats.AvailableChatsActivity">
             <intent-filter>
                 <action
                     android:name="android.intent.action.MAIN"

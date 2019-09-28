@@ -1,4 +1,4 @@
-package com.danjorn.activities
+package com.danjorn.ui.availableChats
 
 import android.Manifest
 import android.app.Activity
@@ -13,34 +13,35 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.danjorn.adapters.ChatAdapter
-import com.danjorn.models.db.ChatPojo
-import com.danjorn.viewModels.MainViewModel
+import com.danjorn.ktx.openChat
+import com.danjorn.models.ChatResponse
+import com.danjorn.presentation.availableChats.AvailableChatsViewModel
+import com.danjorn.ui.availableChats.list.ChatAdapter
+import com.danjorn.ui.createChat.CreateChatActivity
 import com.danjorn.views.R
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 private const val RC_SIGN_IN = 1
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
         SwipeRefreshLayout.OnRefreshListener {
 
-    private val tag = MainActivity::class.java.simpleName
+    private val tag = AvailableChatsActivity::class.java.simpleName
 
     private lateinit var barToggle: ActionBarDrawerToggle
     private lateinit var refreshLayout: SwipeRefreshLayout
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: AvailableChatsViewModel
     private var chatsAdapter = ChatAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(AvailableChatsViewModel::class.java)
 
         if (!userLoggedIn()) {
             showLoginActivity()
@@ -91,27 +92,29 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_action_create_chat -> {
-                startActivity(Intent(this, CreateChatActivity::class.java))
-            }
-            R.id.menu_action_go_to_test_chat -> {
-                val intent = Intent(this, ChatRoomActivity::class.java)
-                intent.putExtra("room", "TestChat") //TODO Put something real at all
-
-                startActivity(intent)
-            }
+            R.id.menu_action_go_to_create_chat -> handleGoToCreateChat()
+            R.id.menu_action_go_to_test_chat -> handleGoToTestChat()
         }
         return true
     }
 
-    private fun onChatChanged(chatPojo: ChatPojo) {
-        chatsAdapter.addOrUpdateChat(chatPojo)
+    private fun handleGoToCreateChat() {
+        startActivity(Intent(this, CreateChatActivity::class.java))
+    }
+
+    private fun handleGoToTestChat() {
+        openChat("TestChat")
+    }
+
+    private fun onChatChanged(chatResponse: ChatResponse) {
+        chatsAdapter.addOrUpdateChat(chatResponse)
     }
 
     private fun userLoggedIn(): Boolean {
         return FirebaseAuth.getInstance().currentUser != null
     }
 
+    //TODO Cancel refreshing of refresh_layout if user doesn't grant a permission
     private fun refreshChats() = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
         viewModel.userRefreshChats {
             refreshLayout.isRefreshing = false
@@ -133,13 +136,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun showLoginDialog() {
         val dialog = AlertDialog.Builder(this)
                 .setMessage(getString(R.string.msg_auth_necessary))
-                .setNegativeButton(getString(R.string.action_leave_app)) { _, _ ->
-                    this.finishAffinity()
-                }
-                .setPositiveButton(getString(R.string.action_authenticate))
-                { _, _ ->
-                    viewModel.showLoginActivity(this, RC_SIGN_IN)
-                }
+                .setNegativeButton(getString(R.string.action_leave_app)) { _, _ -> this.finishAffinity() }
+                .setPositiveButton(getString(R.string.action_authenticate)) { _, _ -> showLoginActivity() }
         dialog.create().show()
     }
 

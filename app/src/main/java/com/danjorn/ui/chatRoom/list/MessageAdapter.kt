@@ -1,4 +1,4 @@
-package com.danjorn.adapters
+package com.danjorn.ui.chatRoom.list
 
 import android.content.Context
 import android.view.View
@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.danjorn.models.db.MessagePojo
+import com.danjorn.models.MessageResponse
+import com.danjorn.ui.chatRoom.message.BaseMessageView
+import com.danjorn.ui.chatRoom.message.ParticipateMessageView
+import com.danjorn.ui.chatRoom.message.UserMessageView
 import com.danjorn.utils.PicassoUtils
-import com.danjorn.views.custom.message.BaseMessageView
-import com.danjorn.views.custom.message.ParticipateMessageView
-import com.danjorn.views.custom.message.UserMessageView
 import java.util.*
 
-class MessageAdapter(private val context: Context, private val messagePojoList: ArrayList<MessagePojo>) : RecyclerView.Adapter<MessageAdapter.MessageHolder>() {
+class MessageAdapter(private val context: Context, private val messageResponseList: ArrayList<MessageResponse>) : RecyclerView.Adapter<MessageAdapter.MessageHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageHolder {
         val messageView : BaseMessageView
@@ -36,14 +36,14 @@ class MessageAdapter(private val context: Context, private val messagePojoList: 
     }
 
     override fun getItemCount(): Int {
-        return messagePojoList.size
+        return messageResponseList.size
 
     }
 
     override fun onBindViewHolder(holder: MessageHolder, position: Int) {
-        holder.messageTextView.text = messagePojoList[position].messageText
-        holder.sendTimeTextView?.text = Date(messagePojoList[position].timestamp!!).toString()
-        PicassoUtils.commonImageDownload(messagePojoList[position].authorId, holder.imageView!!)
+        holder.messageTextView.text = messageResponseList[position].messageText
+        holder.sendTimeTextView?.text = Date(messageResponseList[position].timestamp!!).toString()
+        PicassoUtils.commonImageDownload(messageResponseList[position].authorId, holder.imageView!!)
 
     }
 
