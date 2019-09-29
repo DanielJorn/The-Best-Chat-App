@@ -4,12 +4,14 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -77,7 +79,6 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
         if (barToggle.onOptionsItemSelected(item)) return true
         when (item?.itemId) {
             R.id.action_refresh -> {
-                refreshLayout.isRefreshing = true
                 refreshChats()
                 return true
             }
@@ -113,13 +114,13 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
     private fun onDatabaseError(error: Throwable) {
         //TODO make it more verbose
         Toast.makeText(this, "There is a problem with a chat getting!", Toast.LENGTH_LONG).show()
-        refreshLayout.isRefreshing = false
+        setRefreshing(false)
     }
 
     private fun onLocationError(error: Throwable) {
         //TODO make it more verbose
         Toast.makeText(this, "There is a problem with a location getting!", Toast.LENGTH_LONG).show()
-        refreshLayout.isRefreshing = false
+        setRefreshing(false)
     }
 
     private fun onChatChanged(chatResponse: ChatResponse) {
@@ -131,10 +132,27 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
     }
 
     //TODO Cancel refreshing of refresh_layout if user doesn't grant a permission
-    private fun refreshChats() = runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
-        viewModel.userRefreshChats {
-            refreshLayout.isRefreshing = false
+    private fun refreshChats() {
+        setRefreshingIfHasPermission()
+
+        runWithPermissions(Manifest.permission.ACCESS_FINE_LOCATION) {
+            setRefreshing(true)
+            viewModel.userRefreshChats { setRefreshing(false) }
         }
+    }
+
+    private fun setRefreshingIfHasPermission() {
+        val hasPermission = hasLocationPermission()
+        setRefreshing(hasPermission)
+    }
+
+    private fun hasLocationPermission(): Boolean {
+        val result = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        return result == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun setRefreshing(value: Boolean) {
+        refreshLayout.isRefreshing = value
     }
 
     private fun handleSignInResult(resultCode: Int) {
