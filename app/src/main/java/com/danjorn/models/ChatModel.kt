@@ -9,18 +9,25 @@ data class ChatResponse(
         var radius: Int? = null
 ) : WithId() {
     @Exclude
-    fun deepCopyFrom(chatResponse: ChatResponse) {
-        this.id = chatResponse.id
-        this.title = chatResponse.title
-        this.chatImageUrl = chatResponse.chatImageUrl
-        this.radius = chatResponse.radius
-    }
+    fun toUIChat() = UIChat(
+            id = id,
+            chatTitle = title!!,
+            chatImageUrl = chatImageUrl.orEmpty(),
+            radius = radius!!
+    )
 }
 
-data class Chat(
+data class UIChat(
         override var id: String?,
         var chatTitle: String = "",
         var chatImageUrl: String = "",
         var radius: Int = 0,
         var lastMessage: Message = Message()
-) : WithId()
+) : WithId() {
+    fun deepCopyFrom(UIChat: UIChat) {
+        this.id = UIChat.id
+        this.chatTitle = UIChat.chatTitle
+        this.chatImageUrl = UIChat.chatImageUrl
+        this.radius = UIChat.radius
+    }
+}

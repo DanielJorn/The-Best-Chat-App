@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.danjorn.models.ChatResponse
+import com.danjorn.models.UIChat
 import com.danjorn.utils.PicassoUtils
 import com.danjorn.views.R
 import com.mikhaellopez.circularimageview.CircularImageView
@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.item_chat.view.*
 class ChatAdapter(private val context: Context) :
         RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
-    private val chats: ArrayList<ChatResponse> = ArrayList()
+    private val chats: ArrayList<UIChat> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
         val itemView = LayoutInflater.from(context).inflate(R.layout.item_chat, parent, false)
@@ -32,26 +32,26 @@ class ChatAdapter(private val context: Context) :
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chatPojo = chats[position]
 
-        PicassoUtils.commonImageDownload(chatPojo.chatImageUrl, holder.chatImage)
-        holder.chatTitle.text = chatPojo.title
+        PicassoUtils.commonImageDownload(null, holder.chatImage)
+        holder.chatTitle.text = chatPojo.chatTitle
         //PicassoUtils.commonImageDownload(chatPojo., holder.lastMessageSenderAvatar)
 
     }
 
-    fun addOrUpdateChat(requestChat: ChatResponse) {
-        if (chatExistsById(requestChat.id!!))
-            updateChat(requestChat)
-        else addChat(requestChat)
+    fun addOrUpdateChat(requestUIChat: UIChat) {
+        if (chatExistsById(requestUIChat.id!!))
+            updateChat(requestUIChat)
+        else addChat(requestUIChat)
     }
 
-    private fun addChat(requestChat: ChatResponse) {
-        chats.add(requestChat)
+    private fun addChat(requestUIChat: UIChat) {
+        chats.add(requestUIChat)
         notifyItemInserted(chats.size)
     }
 
-    private fun updateChat(requestChat: ChatResponse) {
-        val toUpdate = findChatById(requestChat.id!!)
-        toUpdate?.deepCopyFrom(requestChat)
+    private fun updateChat(requestUIChat: UIChat) {
+        val toUpdate = findChatById(requestUIChat.id!!)
+        toUpdate?.deepCopyFrom(requestUIChat)
         notifyItemChanged(chats.indexOf(toUpdate))
     }
 
@@ -60,7 +60,7 @@ class ChatAdapter(private val context: Context) :
         return chats.any { it.id == id }
     }
 
-    private fun findChatById(requestId: String): ChatResponse? {
+    private fun findChatById(requestId: String): UIChat? {
         chats.forEach {
             if (it.id == requestId) return it
         }

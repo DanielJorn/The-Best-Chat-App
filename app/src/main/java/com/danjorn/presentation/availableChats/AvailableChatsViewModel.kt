@@ -11,6 +11,7 @@ import com.danjorn.database.FirebaseDatabaseManager
 import com.danjorn.ktx.getValueAndId
 import com.danjorn.ktx.toDatabaseRef
 import com.danjorn.models.ChatResponse
+import com.danjorn.models.UIChat
 import com.danjorn.utils.liveData.FirebaseObserveLiveData
 import com.firebase.ui.auth.AuthUI
 import kotlinx.coroutines.launch
@@ -30,12 +31,12 @@ class AvailableChatsViewModel(application: Application) : AndroidViewModel(appli
     val locationErrorLiveData: LiveData<Throwable> = _locationErrorLiveData
 
     private val chatUpdateObserver = FirebaseObserveLiveData(rootChatRef)
-    private val loadedChats = MutableLiveData<ChatResponse>()
+    private val loadedChats = MutableLiveData<UIChat>()
 
-    val chatsLiveData = MediatorLiveData<ChatResponse>().apply {
+    val chatsLiveData = MediatorLiveData<UIChat>().apply {
         addSource(chatUpdateObserver) { snapshot ->
-            val chatPojo = snapshot.getValueAndId(ChatResponse::class.java)
-            this.value = chatPojo
+            val chatResponse = snapshot.getValueAndId(ChatResponse::class.java)
+            this.value = chatResponse!!.toUIChat()
         }
         addSource(loadedChats) { chatPojo ->
             this.value = chatPojo

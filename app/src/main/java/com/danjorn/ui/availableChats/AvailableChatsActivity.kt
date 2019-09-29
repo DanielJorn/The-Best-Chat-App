@@ -16,7 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.danjorn.ktx.openChat
-import com.danjorn.models.ChatResponse
+import com.danjorn.models.UIChat
 import com.danjorn.presentation.availableChats.AvailableChatsViewModel
 import com.danjorn.ui.availableChats.list.ChatAdapter
 import com.danjorn.ui.createChat.CreateChatActivity
@@ -123,15 +123,14 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
         setRefreshing(false)
     }
 
-    private fun onChatChanged(chatResponse: ChatResponse) {
-        chatsAdapter.addOrUpdateChat(chatResponse)
+    private fun onChatChanged(UIChatResponse: UIChat) {
+        chatsAdapter.addOrUpdateChat(UIChatResponse)
     }
 
     private fun userLoggedIn(): Boolean {
         return FirebaseAuth.getInstance().currentUser != null
     }
 
-    //TODO Cancel refreshing of refresh_layout if user doesn't grant a permission
     private fun refreshChats() {
         setRefreshingIfHasPermission()
 
