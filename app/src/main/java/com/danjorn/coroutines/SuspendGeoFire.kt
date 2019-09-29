@@ -49,7 +49,7 @@ private suspend fun suspendGeoQuery(geoQuery: GeoQuery): ArrayList<Pair<String, 
 private fun GeoLocation.toStandardLocation(): Location {
     val result = Location("")
     result.latitude = this.latitude
-    result.longitude = result.longitude
+    result.longitude = this.longitude
 
     return result
 }
