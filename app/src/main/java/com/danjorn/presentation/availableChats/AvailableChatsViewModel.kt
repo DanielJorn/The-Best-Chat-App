@@ -21,6 +21,8 @@ class AvailableChatsViewModel(application: Application) : AndroidViewModel(appli
     private val rootChatRef = CHATS.toDatabaseRef()
     private val databaseManager = FirebaseDatabaseManager()
 
+    //It's overkill to have several instances of live data just to show some error but if we want to show
+    //something more complex than a Toast with a error message, we should use this approach
     private val _databaseErrorLiveData = MutableLiveData<Throwable>()
     val databaseErrorLiveData: LiveData<Throwable> = _databaseErrorLiveData
 
@@ -46,7 +48,7 @@ class AvailableChatsViewModel(application: Application) : AndroidViewModel(appli
                     onComplete = onComplete,
                     onChatGot = {
                         startObserveChat(it.id!!)
-                        //loadedChats.value = it // We have to map it to Ui version of Chat in Manager...
+                        loadedChats.postValue(it) // We have to map it to Ui version of Chat in Manager...
                     },
                     onError = this::notifyDatabaseError)
         }
