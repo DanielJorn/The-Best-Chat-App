@@ -17,6 +17,8 @@ I will mark the items of this manifesto as proceed and finish them. Also, this l
 
 ~~2.1. Add a message uploading for chat that's being created.~~
 
+2.2. Add user input validation when a user creates a chat.
+
 3. Implement messaging in chat rooms.
 
 3.1. Implement navigation to some user's profile when click on his image in a chat.
