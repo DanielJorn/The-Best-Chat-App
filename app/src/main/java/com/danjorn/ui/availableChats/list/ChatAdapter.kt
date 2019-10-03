@@ -8,11 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.danjorn.models.UIChat
-import com.danjorn.utils.PicassoUtils
+import com.danjorn.utils.downloadImage
 import com.danjorn.views.R
 import com.mikhaellopez.circularimageview.CircularImageView
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_chat.view.*
 
 
 class ChatAdapter(private val context: Context) :
@@ -32,9 +31,9 @@ class ChatAdapter(private val context: Context) :
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chatPojo = chats[position]
 
-        PicassoUtils.commonImageDownload(null, holder.chatImage)
+        downloadImage(null, holder.chatImage)
         holder.chatTitle.text = chatPojo.chatTitle
-        //PicassoUtils.commonImageDownload(chatPojo., holder.lastMessageSenderAvatar)
+        //downloadImage(chatPojo., holder.lastMessageSenderAvatar)
 
     }
 

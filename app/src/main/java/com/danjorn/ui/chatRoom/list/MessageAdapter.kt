@@ -10,7 +10,7 @@ import com.danjorn.models.MessageResponse
 import com.danjorn.ui.chatRoom.message.BaseMessageView
 import com.danjorn.ui.chatRoom.message.ParticipateMessageView
 import com.danjorn.ui.chatRoom.message.UserMessageView
-import com.danjorn.utils.PicassoUtils
+import com.danjorn.utils.downloadImage
 import java.util.*
 
 class MessageAdapter(private val context: Context, private val messageResponseList: ArrayList<MessageResponse>) : RecyclerView.Adapter<MessageAdapter.MessageHolder>() {
@@ -43,7 +43,7 @@ class MessageAdapter(private val context: Context, private val messageResponseLi
     override fun onBindViewHolder(holder: MessageHolder, position: Int) {
         holder.messageTextView.text = messageResponseList[position].messageText
         holder.sendTimeTextView?.text = Date(messageResponseList[position].timestamp!!).toString()
-        PicassoUtils.commonImageDownload(messageResponseList[position].authorId, holder.imageView!!)
+        downloadImage(messageResponseList[position].authorId, holder.imageView!!)
 
     }
 
