@@ -12,8 +12,8 @@ data class MessageResponse(
         var messageText: String? = null,
         var timestamp: Long? = null
 ) : WithId() {
-    fun toUIMessage(): Message {
-        return Message(
+    fun toUIMessage(): UIMessage {
+        return UIMessage(
                 id = id,
                 chatId = chatId,
                 messageText = messageText.orEmpty(),
@@ -23,7 +23,7 @@ data class MessageResponse(
     }
 }
 
-data class Message(
+data class UIMessage(
         override var id: String? = null,
         var chatId: String? = null,
         var messageText: String = "",

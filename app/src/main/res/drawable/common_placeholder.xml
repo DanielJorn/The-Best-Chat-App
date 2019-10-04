@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--We use this drawable as placeholder in 'download-image-libraries'
+    because they crash when we don't specify witdth and heigth.
+    See https://github.com/hdodenhof/CircleImageView/issues/181 -->
+    <size
+        android:width="1dp"
+        android:height="1dp" />
+    <solid android:color="@color/colorPrimary" />
+</shape>

@@ -14,5 +14,4 @@ class UserMessageView : BaseMessageView {
     override fun getLayoutId(): Int {
         return R.layout.message_user
     }
-
 }

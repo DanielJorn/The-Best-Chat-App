@@ -22,7 +22,7 @@ data class UIChat(
         var chatTitle: String = "",
         var chatImageUrl: String = "",
         var radius: Int = 0,
-        var lastMessage: Message = Message()
+        var lastMessage: UIMessage = UIMessage()
 ) : WithId() {
     fun deepCopyFrom(UIChat: UIChat) {
         this.id = UIChat.id

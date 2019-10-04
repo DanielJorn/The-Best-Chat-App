@@ -2,7 +2,6 @@ package com.danjorn.ktx
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
 import com.danjorn.models.WithId
 import com.danjorn.ui.chatRoom.ChatRoomActivity
 import com.google.firebase.database.DataSnapshot
@@ -29,7 +28,6 @@ fun String.toFirebaseStorageRef(): StorageReference {
 
 fun Activity.openChat(chatId: String) {
     val intent = Intent(this, ChatRoomActivity::class.java)
-    val bundle = Bundle()
-    bundle.putString(ChatRoomActivity.BUNDLE_CHAT_ID, chatId)
-    startActivity(intent, bundle)
+    intent.putExtra(ChatRoomActivity.BUNDLE_CHAT_ID, chatId)
+    startActivity(intent)
 }

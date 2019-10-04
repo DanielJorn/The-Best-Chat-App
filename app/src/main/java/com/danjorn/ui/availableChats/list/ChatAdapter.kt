@@ -12,6 +12,7 @@ import com.danjorn.utils.downloadImage
 import com.danjorn.views.R
 import com.mikhaellopez.circularimageview.CircularImageView
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.item_chat.view.*
 
 
 class ChatAdapter(private val context: Context) :

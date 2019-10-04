@@ -9,7 +9,7 @@ fun downloadImage(url: String?, imageView: ImageView) {
 
     Picasso.get()
             .load(validUrl)
-            .placeholder(R.color.colorPrimary)
+            .placeholder(R.drawable.common_placeholder)
             .into(imageView)
 }
 
