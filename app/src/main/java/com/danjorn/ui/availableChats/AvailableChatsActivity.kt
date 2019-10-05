@@ -43,9 +43,7 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
         viewModel = ViewModelProviders.of(this).get(AvailableChatsViewModel::class.java)
 
-        if (!userLoggedIn()) {
-            showLoginActivity()
-        }
+        loginUserIfNeeded()
 
         initDrawerLayout()
         refreshLayout = refresh_layout
@@ -54,12 +52,6 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
         available_chats.adapter = chatsAdapter
 
         setUpLiveDataListeners()
-    }
-
-    private fun setUpLiveDataListeners() {
-        viewModel.chatsLiveData.observe(this, Observer { onChatChanged(it) })
-        viewModel.locationErrorLiveData.observe(this, Observer { onLocationError(it) })
-        viewModel.databaseErrorLiveData.observe(this, Observer { onDatabaseError(it) })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -101,6 +93,16 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
         return true
     }
 
+    private fun loginUserIfNeeded() {
+        viewModel.loginUserIfNeeded(this, RC_SIGN_IN)
+    }
+
+    private fun setUpLiveDataListeners() {
+        viewModel.chatsLiveData.observe(this, Observer { onChatChanged(it) })
+        viewModel.locationErrorLiveData.observe(this, Observer { onLocationError(it) })
+        viewModel.databaseErrorLiveData.observe(this, Observer { onDatabaseError(it) })
+    }
+
     private fun handleGoToCreateChat() {
         viewModel.goToCreateChat(this)
     }
@@ -123,10 +125,6 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
     private fun onChatChanged(UIChatResponse: UIChat) {
         chatsAdapter.addOrUpdateChat(UIChatResponse)
-    }
-
-    private fun userLoggedIn(): Boolean {
-        return viewModel.isUserLoggedIn()
     }
 
     private fun refreshChats() {
@@ -160,15 +158,11 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
         }
     }
 
-    private fun showLoginActivity() {
-        viewModel.showLoginActivity(this, RC_SIGN_IN)
-    }
-
     private fun showLoginDialog() {
         val dialog = AlertDialog.Builder(this)
                 .setMessage(getString(R.string.msg_auth_necessary))
                 .setNegativeButton(getString(R.string.action_leave_app)) { _, _ -> this.finishAffinity() }
-                .setPositiveButton(getString(R.string.action_authenticate)) { _, _ -> showLoginActivity() }
+                .setPositiveButton(getString(R.string.action_authenticate)) { _, _ -> loginUserIfNeeded() }
         dialog.create().show()
     }
 

@@ -47,10 +47,6 @@ class AvailableChatsViewModel(application: Application) : AndroidViewModel(appli
         }
     }
 
-    fun isUserLoggedIn(): Boolean {
-        return authManager.isUserLoggedIn()
-    }
-
     fun goToCreateChat(context: Context) {
         context.startActivity(Intent(context, CreateChatActivity::class.java))
     }
@@ -61,14 +57,24 @@ class AvailableChatsViewModel(application: Application) : AndroidViewModel(appli
                     onComplete = onComplete,
                     onChatGot = {
                         startObserveChat(it.id!!)
-                        loadedChats.postValue(it) // We have to map it to Ui version of Chat in Manager...
+                        loadedChats.postValue(it)
                     },
                     onError = this::notifyDatabaseError)
         }
     }
 
-    fun showLoginActivity(launchFrom: Activity, requestCode: Int) {
+    fun loginUserIfNeeded(activity: Activity, requestCode: Int) {
+        if (userNotLoggedIn()) {
+            showLoginActivity(activity, requestCode)
+        }
+    }
+
+    private fun showLoginActivity(launchFrom: Activity, requestCode: Int) {
         authManager.showLoginActivity(launchFrom, requestCode)
+    }
+
+    private fun userNotLoggedIn(): Boolean {
+        return !authManager.isUserLoggedIn()
     }
 
     private fun notifyDatabaseError(error: Throwable) {
