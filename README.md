@@ -11,11 +11,13 @@ For example, if you have created a chat in Los Angeles and have setted a zone to
 # Manifesto
 I will mark the items of this manifesto as proceed and finish them. Also, this list isn't immutable, I will often add items to it (and will try not to delete these!).
 
-1. Implement fetching chats within some radius and displaying these to user.
+~~1. Implement fetching chats within some radius and displaying these to user.~~
 
-2. Implement creating of a chat.
+~~2. Implement creating of a chat.~~
 
-2.1. Add a message uploading for chat that's being created.
+~~2.1. Add a message uploading for chat that's being created.~~
+
+2.2. Add user input validation when a user creates a chat.
 
 3. Implement messaging in chat rooms.
 
