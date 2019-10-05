@@ -7,6 +7,13 @@
     android:padding="@dimen/small_padding">
 
 
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/image_chat"
+        android:layout_width="@dimen/chat_preview_image_size"
+        android:layout_height="@dimen/chat_preview_image_size"
+        app:civ_border="false" />
+
+
     <LinearLayout
         android:id="@+id/layout_chat_info"
         android:layout_width="match_parent"
@@ -37,9 +44,9 @@
                 style="@style/TextSendTime"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_weight="40"
                 android:gravity="end"
-                android:layout_gravity="bottom"
                 android:text="2014.04.01" />
         </LinearLayout>
 
@@ -48,15 +55,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/text_last_message"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="Text Plain and Old" />
 
             <com.mikhaellopez.circularimageview.CircularImageView
                 android:id="@+id/image_last_message_sender_avatar"
@@ -70,17 +68,18 @@
                 android:src="@drawable/com_facebook_profile_picture_blank_square"
                 app:civ_border="false" />
 
+            <TextView
+                android:id="@+id/text_last_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Text Plain and Old" />
+
         </LinearLayout>
 
     </LinearLayout>
-
-
-
-    <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/image_chat"
-        android:layout_width="@dimen/chat_preview_image_size"
-        android:layout_height="@dimen/chat_preview_image_size"
-        app:civ_border="false" />
 
 
 </LinearLayout>
