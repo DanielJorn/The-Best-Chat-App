@@ -3,7 +3,7 @@ package com.danjorn.presentation.chatRoom
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.danjorn.database.MESSAGES
+import com.danjorn.firebase.database.MESSAGES
 import com.danjorn.ktx.getValueAndId
 import com.danjorn.ktx.toDatabaseRef
 import com.danjorn.models.MessageResponse

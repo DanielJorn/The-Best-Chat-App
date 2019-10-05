@@ -1,4 +1,4 @@
-package com.danjorn.database
+package com.danjorn.firebase.database
 
 const val CHAT_LOCATION = "chatLocation"
 const val CHATS = "chats"

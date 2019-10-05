@@ -1,7 +1,7 @@
 package com.danjorn.coroutines
 
 import android.location.Location
-import com.danjorn.database.CHAT_LOCATION
+import com.danjorn.firebase.database.CHAT_LOCATION
 import com.danjorn.ktx.toDatabaseRef
 import com.firebase.geofire.GeoFire
 import com.firebase.geofire.GeoLocation

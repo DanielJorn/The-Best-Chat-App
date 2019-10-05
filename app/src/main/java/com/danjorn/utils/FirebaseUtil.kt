@@ -5,8 +5,8 @@ import android.location.Location
 import android.net.Uri
 import com.danjorn.configs.CHATS_IMAGES
 import com.danjorn.coroutines.suspendLocation
-import com.danjorn.database.CHATS
-import com.danjorn.database.CHAT_LOCATION
+import com.danjorn.firebase.database.CHATS
+import com.danjorn.firebase.database.CHAT_LOCATION
 import com.danjorn.ktx.toDatabaseRef
 import com.danjorn.models.ChatResponse
 import com.firebase.geofire.GeoLocation

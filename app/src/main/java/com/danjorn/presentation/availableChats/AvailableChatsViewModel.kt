@@ -2,25 +2,29 @@ package com.danjorn.presentation.availableChats
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
+import android.content.Intent
 import android.location.Location
-import androidx.core.app.ActivityCompat
 import androidx.lifecycle.*
 import com.danjorn.coroutines.suspendLocation
-import com.danjorn.database.CHATS
-import com.danjorn.database.FirebaseDatabaseManager
+import com.danjorn.firebase.auth.FirebaseAuthManager
+import com.danjorn.firebase.database.CHATS
+import com.danjorn.firebase.database.FirebaseDatabaseManager
 import com.danjorn.ktx.getValueAndId
 import com.danjorn.ktx.toDatabaseRef
 import com.danjorn.models.ChatResponse
 import com.danjorn.models.UIChat
+import com.danjorn.ui.createChat.CreateChatActivity
 import com.danjorn.utils.liveData.FirebaseObserveLiveData
-import com.firebase.ui.auth.AuthUI
 import kotlinx.coroutines.launch
 
 class AvailableChatsViewModel(application: Application) : AndroidViewModel(application) {
 
     private val tag = AvailableChatsViewModel::class.java.simpleName
     private val rootChatRef = CHATS.toDatabaseRef()
+
     private val databaseManager = FirebaseDatabaseManager()
+    private val authManager = FirebaseAuthManager()
 
     //It's overkill to have several instances of live data just to show some error but if we want to show
     //something more complex than a Toast with a error message, we should use this approach
@@ -43,6 +47,14 @@ class AvailableChatsViewModel(application: Application) : AndroidViewModel(appli
         }
     }
 
+    fun isUserLoggedIn(): Boolean {
+        return authManager.isUserLoggedIn()
+    }
+
+    fun goToCreateChat(context: Context) {
+        context.startActivity(Intent(context, CreateChatActivity::class.java))
+    }
+
     fun userRefreshChats(onComplete: () -> Unit) {
         getUserLocation { location ->
             databaseManager.getAvailableChats(location,
@@ -55,26 +67,12 @@ class AvailableChatsViewModel(application: Application) : AndroidViewModel(appli
         }
     }
 
-    private fun notifyDatabaseError(error: Throwable) {
-        _databaseErrorLiveData.value = error
+    fun showLoginActivity(launchFrom: Activity, requestCode: Int) {
+        authManager.showLoginActivity(launchFrom, requestCode)
     }
 
-    fun showLoginActivity(activity: Activity, requestCode: Int) {
-
-        val providers = arrayListOf(
-                AuthUI.IdpConfig.GoogleBuilder().build(),
-                AuthUI.IdpConfig.FacebookBuilder().build()
-        )
-
-        ActivityCompat.startActivityForResult(
-                activity,
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
-                requestCode,
-                null
-        )
+    private fun notifyDatabaseError(error: Throwable) {
+        _databaseErrorLiveData.value = error
     }
 
     private fun startObserveChat(chatId: String) {

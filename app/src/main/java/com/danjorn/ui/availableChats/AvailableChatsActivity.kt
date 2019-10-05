@@ -19,10 +19,8 @@ import com.danjorn.ktx.openChat
 import com.danjorn.models.UIChat
 import com.danjorn.presentation.availableChats.AvailableChatsViewModel
 import com.danjorn.ui.availableChats.list.ChatAdapter
-import com.danjorn.ui.createChat.CreateChatActivity
 import com.danjorn.views.R
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import kotlinx.android.synthetic.main.activity_available_chats.*
 
@@ -104,7 +102,7 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
     }
 
     private fun handleGoToCreateChat() {
-        startActivity(Intent(this, CreateChatActivity::class.java))
+        viewModel.goToCreateChat(this)
     }
 
     private fun handleGoToTestChat() {
@@ -128,7 +126,7 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
     }
 
     private fun userLoggedIn(): Boolean {
-        return FirebaseAuth.getInstance().currentUser != null
+        return viewModel.isUserLoggedIn()
     }
 
     private fun refreshChats() {

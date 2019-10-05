@@ -1,4 +1,4 @@
-package com.danjorn.database
+package com.danjorn.firebase.database
 
 import android.location.Location
 import com.danjorn.configs.MAX_RADIUS
