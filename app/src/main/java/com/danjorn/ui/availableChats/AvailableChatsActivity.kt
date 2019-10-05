@@ -44,9 +44,7 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
         loginUserIfNeeded()
 
-        initDrawerLayout()
-        refreshLayout = refresh_layout
-        refreshLayout.setOnRefreshListener(this)
+        initUi()
 
         available_chats.adapter = chatsAdapter
 
@@ -154,9 +152,23 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
     private fun showLoginNecessaryDialog() {
         val dialog = AlertDialog.Builder(this)
                 .setMessage(getString(R.string.msg_auth_necessary))
-                .setNegativeButton(getString(R.string.action_leave_app)) { _, _ -> this.finishAffinity() }
+                .setNegativeButton(getString(R.string.action_leave_app)) { _, _ -> leaveApp() }
                 .setPositiveButton(getString(R.string.action_authenticate)) { _, _ -> loginUserIfNeeded() }
         dialog.create().show()
+    }
+
+    private fun leaveApp() {
+        this.finishAffinity()
+    }
+
+    private fun initUi() {
+        initDrawerLayout()
+        initRefreshLayout()
+    }
+
+    private fun initRefreshLayout() {
+        refreshLayout = refresh_layout
+        refreshLayout.setOnRefreshListener(this)
     }
 
     private fun initDrawerLayout() {
