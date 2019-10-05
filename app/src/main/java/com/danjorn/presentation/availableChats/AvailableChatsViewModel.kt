@@ -37,6 +37,12 @@ class AvailableChatsViewModel(application: Application) : AndroidViewModel(appli
     private val chatUpdateObserver = FirebaseObserveLiveData(rootChatRef)
     private val loadedChats = MutableLiveData<UIChat>()
 
+    private val _onSignInSuccessful = MutableLiveData<Unit?>()
+    val onSignInSuccessful: LiveData<Unit?> = _onSignInSuccessful
+
+    private val _onSignInError = MutableLiveData<Unit?>()
+    val onSignInError: LiveData<Unit?> = _onSignInError
+
     val chatsLiveData = MediatorLiveData<UIChat>().apply {
         addSource(chatUpdateObserver) { snapshot ->
             val chatResponse = snapshot.getValueAndId(ChatResponse::class.java)
@@ -95,4 +101,16 @@ class AvailableChatsViewModel(application: Application) : AndroidViewModel(appli
             }
         }
     }
+
+    fun handleSignInResult(resultCode: Int) {
+        if (resultCode == Activity.RESULT_OK) {
+            _onSignInSuccessful.notifyObservers()
+        } else {
+            _onSignInError.notifyObservers()
+        }
+    }
+}
+
+private fun <T> MutableLiveData<T>.notifyObservers() {
+    this.value = this.value
 }

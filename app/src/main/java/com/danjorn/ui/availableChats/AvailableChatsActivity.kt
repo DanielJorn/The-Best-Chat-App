@@ -1,7 +1,6 @@
 package com.danjorn.ui.availableChats
 
 import android.Manifest
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -56,7 +55,7 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            RC_SIGN_IN -> handleSignInResult(resultCode)
+            RC_SIGN_IN -> viewModel.handleSignInResult(resultCode)
         }
     }
 
@@ -87,8 +86,8 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_action_go_to_create_chat -> handleGoToCreateChat()
-            R.id.menu_action_go_to_test_chat -> handleGoToTestChat()
+            R.id.menu_action_go_to_create_chat -> viewModel.goToCreateChat(this)
+            R.id.menu_action_go_to_test_chat -> openChat("TestChat")
         }
         return true
     }
@@ -101,14 +100,16 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
         viewModel.chatsLiveData.observe(this, Observer { onChatChanged(it) })
         viewModel.locationErrorLiveData.observe(this, Observer { onLocationError(it) })
         viewModel.databaseErrorLiveData.observe(this, Observer { onDatabaseError(it) })
+        viewModel.onSignInSuccessful.observe(this, Observer { onSignInSuccessful() })
+        viewModel.onSignInError.observe(this, Observer { onSignInError() })
     }
 
-    private fun handleGoToCreateChat() {
-        viewModel.goToCreateChat(this)
+    private fun onSignInError() {
+        showLoginNecessaryDialog()
     }
 
-    private fun handleGoToTestChat() {
-        openChat("TestChat")
+    private fun onSignInSuccessful() {
+        Toast.makeText(this, getString(R.string.msg_successfully_signed_in), Toast.LENGTH_SHORT).show()
     }
 
     private fun onDatabaseError(error: Throwable) {
@@ -150,15 +151,7 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
         refreshLayout.isRefreshing = value
     }
 
-    private fun handleSignInResult(resultCode: Int) {
-        if (resultCode == Activity.RESULT_OK) {
-            Toast.makeText(this, getString(R.string.msg_successfully_signed_in), Toast.LENGTH_SHORT).show()
-        } else {
-            showLoginDialog()
-        }
-    }
-
-    private fun showLoginDialog() {
+    private fun showLoginNecessaryDialog() {
         val dialog = AlertDialog.Builder(this)
                 .setMessage(getString(R.string.msg_auth_necessary))
                 .setNegativeButton(getString(R.string.action_leave_app)) { _, _ -> this.finishAffinity() }
