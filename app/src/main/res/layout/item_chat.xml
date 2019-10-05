@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -36,9 +37,9 @@
                 style="@style/TextSendTime"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
                 android:layout_weight="40"
                 android:gravity="end"
+                android:layout_gravity="bottom"
                 android:text="2014.04.01" />
         </LinearLayout>
 
@@ -66,17 +67,20 @@
                 android:layout_marginEnd="@dimen/average_margin"
                 android:layout_marginRight="@dimen/average_margin"
                 android:gravity="center_vertical"
-                android:src="@drawable/com_facebook_profile_picture_blank_square" />
+                android:src="@drawable/com_facebook_profile_picture_blank_square"
+                app:civ_border="false" />
 
         </LinearLayout>
 
     </LinearLayout>
 
 
+
     <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/image_chat"
         android:layout_width="@dimen/chat_preview_image_size"
-        android:layout_height="@dimen/chat_preview_image_size" />
+        android:layout_height="@dimen/chat_preview_image_size"
+        app:civ_border="false" />
 
 
 </LinearLayout>
