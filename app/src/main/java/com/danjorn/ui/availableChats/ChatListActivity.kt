@@ -2,6 +2,7 @@ package com.danjorn.ui.availableChats
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -25,10 +26,13 @@ import kotlinx.android.synthetic.main.activity_available_chats.*
 
 private const val RC_SIGN_IN = 1
 
-class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+class ChatListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
         SwipeRefreshLayout.OnRefreshListener {
+    companion object{
+        fun callingIntent(context: Context) = Intent(context, ChatListActivity::class.java)
+    }
 
-    private val tag = AvailableChatsActivity::class.java.simpleName
+    private val tag = ChatListActivity::class.java.simpleName
 
     private lateinit var barToggle: ActionBarDrawerToggle
     private lateinit var refreshLayout: SwipeRefreshLayout
@@ -42,7 +46,7 @@ class AvailableChatsActivity : AppCompatActivity(), NavigationView.OnNavigationI
 
         viewModel = ViewModelProviders.of(this).get(AvailableChatsViewModel::class.java)
 
-        loginUserIfNeeded()
+        //loginUserIfNeeded()
 
         initUi()
 

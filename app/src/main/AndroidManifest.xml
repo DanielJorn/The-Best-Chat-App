@@ -3,8 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.danjorn.views">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
-        android:name="androidx.multidex.MultiDexApplication"
+        android:name="com.danjorn.AndroidApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,9 +20,7 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name="com.danjorn.ui.chatRoom.ChatRoomActivity" />
-        <activity android:name="com.danjorn.ui.createChat.CreateChatActivity" />
-        <activity android:name="com.danjorn.ui.availableChats.AvailableChatsActivity">
+        <activity android:name="com.danjorn.core.navigation.RouteActivity">
             <intent-filter>
                 <action
                     android:name="android.intent.action.MAIN"
@@ -25,17 +29,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.danjorn.activities.UploadImageActivity" />
+        <activity android:name="com.danjorn.features.chat.ChatListActivity"/>
+        <activity android:name="com.danjorn.ui.chatRoom.ChatRoomActivity" />
+        <activity android:name="com.danjorn.features.login.LoginActivity" />
+        <activity android:name="com.danjorn.ui.createChat.CreateChatActivity" />
+        <activity android:name="com.danjorn.ui.availableChats.ChatListActivity" />
     </application>
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
 </manifest>

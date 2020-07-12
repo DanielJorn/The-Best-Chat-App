@@ -7,7 +7,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-private const val tag = "CloudStorageUtils" //TODO How to use name of this class as tag using <class>::class.java.getSimpleName?
+private const val tag = "CloudStorageUtils" //TODO How to use title of this class as tag using <class>::class.java.getSimpleName?
 
 suspend fun uploadFile(storageRef: String, uri: Uri): Unit? = suspendCoroutine { cont ->
     val ref = storageRef.toFirebaseStorageRef()

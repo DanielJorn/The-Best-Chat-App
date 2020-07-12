@@ -39,7 +39,7 @@ suspend fun suspendUploadChat(activity: Activity, chatResponse: ChatResponse, ch
 
 fun getUploadImagePath(chatId: String): String = "$CHATS_IMAGES/$chatId/chat_photo"
 
-private fun getUpdateMap(location: Location, chatResponse: ChatResponse, chatId: String): Map<String, Any> { //TODO updateMap?! Silly name I have to create some another. And has ugly signature
+private fun getUpdateMap(location: Location, chatResponse: ChatResponse, chatId: String): Map<String, Any> { //TODO updateMap?! Silly title I have to create some another. And has ugly signature
     val geoLocation = GeoLocation(location.latitude, location.longitude)
     val geoHash = GeoHash(geoLocation)
     val map = HashMap<String, Any>()
