@@ -1,0 +1,228 @@
+[33mcommit 32b0ec338f00e8c1c97252f2e42891f2c76dc650[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Daniel_Jorn <0954264@gmail.com>
+Date:   Sun Jul 12 13:06:46 2020 +0300
+
+    I'm not sure what's going on
+
+[33mcommit b37e3c5b0cb36cfb6e0e88c7a7b72e5252916859[m
+Author: Anton <0954264@gmail.com>
+Date:   Fri Oct 11 21:58:41 2019 +0300
+
+    Made repo deprecated.
+
+[33mcommit e29d76961c76d2a8b916d8b2464b08cea3c4dd50[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Oct 5 15:58:22 2019 +0300
+
+    Minor refactoring.
+
+[33mcommit 7050a38d9fb83f9f928540121f903843f795581b[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Oct 5 15:55:38 2019 +0300
+
+    Made AvailableChatsActivity a bit dumper again.
+
+[33mcommit d2cd4b33d27f5ee35c5e0b9bc22b4777e09abcf3[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Oct 5 10:11:06 2019 +0300
+
+    Made AvailableChatsActivity a bit dumper.
+
+[33mcommit 10f622e8f8e0ec6fdd8bf79cb40f11dd63b61a96[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Oct 5 09:58:06 2019 +0300
+
+    Made AvailableChatsActivity follow S [SOLID].
+    Changed hierarchy of packages.
+
+[33mcommit e750d29dfeb997ba799d68c4f47f522b2cc35fb9[m
+Merge: e2e4bf9 6f4410a
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Oct 5 09:15:56 2019 +0300
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit e2e4bf9cc746b6df356b61ab176c4e4373a3a647[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Oct 5 09:15:31 2019 +0300
+
+    Fixup! Fixed layout. It was broken because of bug with arrangement.
+
+[33mcommit b63b2d169b100d4b5cc3499770315d60036987f6[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Oct 5 09:06:07 2019 +0300
+
+    Deleted unnecessary files. Returned normal item_chat.xml
+
+[33mcommit 1e5c396955d44726dda5818e8348029712295fd2[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Fri Oct 4 20:06:07 2019 +0300
+
+    Made MessageAdapter extend ListAdapter. Several refactorings.
+
+[33mcommit f5272398c6d331ec7080b0fe6f62e0134af9bbee[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Fri Oct 4 10:07:16 2019 +0300
+
+     Added map function in MessageModel.
+
+[33mcommit b305b75f7bd8a5fe3d853652b524e6e5a3132338[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Thu Oct 3 16:54:20 2019 +0300
+
+    Minor refactorings.
+
+[33mcommit 3e538997c0c566f640858460211c48546c2155eb[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sun Sep 29 17:11:31 2019 +0300
+
+    Now UI works with UIChat, not with a ChatResponse.
+
+[33mcommit 6f4410a4e3b3f0e88dfebd2877cc8e828c12bd48[m
+Author: Anton <0954264@gmail.com>
+Date:   Sun Sep 29 15:09:18 2019 +0300
+
+    Added item to Manifesto.
+    
+    2.2. Add user input validation when a user creates a chat.
+
+[33mcommit ad4a558f59f5f1528c22c104be6d88beeb2fc11c[m
+Author: Anton <0954264@gmail.com>
+Date:   Sun Sep 29 15:07:13 2019 +0300
+
+    Strikethroughed some items of Manifesto.
+    
+    1. [Implement fetching chats within some radius and displaying these to user.] (https://github.com/DanielJorn/The-Best-Chat-App/commit/befc15b86394d2448337dcd371931e91caa2c4e8)
+    2. [Implement creating of a chat.] (https://github.com/DanielJorn/The-Best-Chat-App/commit/1b5b02892ce018c974eb02ffdb769745b49cf6f5)
+    2.1. [Add a message uploading for chat that's being created.] (https://github.com/DanielJorn/The-Best-Chat-App/commit/1b5b02892ce018c974eb02ffdb769745b49cf6f5)
+
+[33mcommit 827652d70a876b1bc6b1b4ab252ccdbdfb7daa64[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sun Sep 29 14:07:14 2019 +0300
+
+    Returned usage of ChatResponse to update UI to make app working.
+
+[33mcommit 497caf9d9c2c1574f82bf358b215515d4e23e508[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sun Sep 29 14:05:10 2019 +0300
+
+    Added feature that cancels refreshing layout if user doesn't grant a permission.
+
+[33mcommit 977af51ff91883159cc987f6ecc80387ec1bb443[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sun Sep 29 14:02:30 2019 +0300
+
+    Fixup! Fixed invalid mapping of Location.
+
+[33mcommit 024a648208fa9e10c27cce67aa3ebc3c5150c86e[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Sep 28 21:59:06 2019 +0300
+
+    Changed names of constants to uppercase.
+
+[33mcommit 7252ccfbb2ddf682af855def488107a2a2c83e2e[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Sep 28 21:55:13 2019 +0300
+
+    Encapsulated getting path to access chat photo.
+
+[33mcommit a8934671cc4f06699ead543cb7ad6f0a6bc89825[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Sep 28 21:53:54 2019 +0300
+
+    Changed path to access chat photo.
+
+[33mcommit 24fb6df65aac307664020fba722208774aa5a1ce[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Sep 28 21:37:37 2019 +0300
+
+    Refactored AvailableChatsViewModel to use database error.
+    Added flexible error catching
+
+[33mcommit 80fd902842d062abee8fd222c9dbffec9294d431[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Sep 28 21:35:16 2019 +0300
+
+    Encapsulated database logic in DatabaseManager.
+
+[33mcommit e34b905a9a996ce14f50ef89042d23ff09963828[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Sep 28 18:06:48 2019 +0300
+
+    Fixup! Reverted deleting drawer layout's id in activity_available_chats.xml.
+
+[33mcommit 20fb702497035bde16f4a8d49882794a25c87844[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Sep 28 17:22:46 2019 +0300
+
+    Have cleaned layout directory.
+
+[33mcommit 06f219794ad36bf9a44bef0905e004669cd5916f[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Sat Sep 28 13:03:55 2019 +0300
+
+    Changed hierarchy of the packages for views, view models and models.
+    Some refactoring.
+
+[33mcommit abd47dbdeb884e71d3e59be412da13a8262c9d20[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Fri Sep 27 17:10:59 2019 +0300
+
+    Fix of possible ConcurrentModificationException.
+
+[33mcommit 1b5b02892ce018c974eb02ffdb769745b49cf6f5[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Thu Sep 26 17:41:21 2019 +0300
+
+    Added image uploading when create chat. Some refactorings.
+
+[33mcommit f5d38fb7c4805914058ea88e800baf6b3b91d4b4[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Thu Sep 26 10:52:41 2019 +0300
+
+    Minor refactorings.
+
+[33mcommit 9280f2e8572b94bf55906e42e37a6981f10294bd[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Tue Sep 24 12:09:00 2019 +0300
+
+    Added SwipeRefreshLayout to update chats.
+
+[33mcommit 8bf077f11017c0f9db9f8b53e8e6e7df451dfeb4[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Tue Sep 24 11:11:00 2019 +0300
+
+    Have removed DiffUtil support, because I don't need it now.
+
+[33mcommit 0b623dbbd8fb29cada792f1b4b8cae576025d532[m
+Merge: befc15b a8ed5f1
+Author: DanielJorn <0954264@gmail.com>
+Date:   Mon Sep 23 16:51:37 2019 +0300
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit befc15b86394d2448337dcd371931e91caa2c4e8[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Mon Sep 23 16:15:09 2019 +0300
+
+    Have been added querying of available chats and observing changes on them.
+    Several minor improvements.
+    This commit is too bloated, I know.
+
+[33mcommit a8ed5f16f0c8c7f2d3b16bb010de719c069a69a4[m
+Author: DanielJorn <46281594+DanielJorn@users.noreply.github.com>
+Date:   Thu Sep 12 16:26:00 2019 +0300
+
+    Update README.md
+
+[33mcommit cc8863f4a2704fd4b048b0f1b51208347ce0ee8d[m
+Author: DanielJorn <46281594+DanielJorn@users.noreply.github.com>
+Date:   Thu Sep 12 16:24:02 2019 +0300
+
+    Create README.md
+
+[33mcommit cacd54a0b520a4f390e9661eff3575d1a939b56c[m
+Author: DanielJorn <0954264@gmail.com>
+Date:   Thu Sep 12 15:46:02 2019 +0300
+
+    Initial commit
