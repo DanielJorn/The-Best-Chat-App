@@ -16,7 +16,7 @@ class ChatListFragment : BaseFragment() {
 
         chatListViewModel = viewModelFactory.create(ChatListViewModel::class.java)
         chatListViewModel.failure.observe(this, Observer { ::handleFailure })
-        chatListViewModel.permissionGranted.observe(this, Observer { ::permissionGranted() })
+        chatListViewModel.permissionGranted.observe(this, Observer { })
         chatListViewModel.requestLocationPermission(this)
     }
 

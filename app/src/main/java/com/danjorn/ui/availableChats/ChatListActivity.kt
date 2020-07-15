@@ -56,6 +56,7 @@ class ChatListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             RC_SIGN_IN -> viewModel.handleSignInResult(resultCode)
         }
@@ -66,7 +67,7 @@ class ChatListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (barToggle.onOptionsItemSelected(item)) return true
         when (item?.itemId) {
             R.id.action_refresh -> {

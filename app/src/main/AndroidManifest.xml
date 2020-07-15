@@ -20,6 +20,13 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
+        <activity android:name="com.danjorn.features.signup.SignUpActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name="com.danjorn.core.navigation.RouteActivity">
             <intent-filter>
                 <action
@@ -29,7 +36,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.danjorn.features.chat.ChatListActivity"/>
+        <activity android:name="com.danjorn.features.chat.ChatListActivity" />
         <activity android:name="com.danjorn.ui.chatRoom.ChatRoomActivity" />
         <activity android:name="com.danjorn.features.login.LoginActivity" />
         <activity android:name="com.danjorn.ui.createChat.CreateChatActivity" />

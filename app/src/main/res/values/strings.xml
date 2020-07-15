@@ -41,6 +41,10 @@
     <string name="title_menu_go_to_test_chat">Go to test chat (This should be deleted!)</string>
     <string name="error_fetching_chats">Something went wrong while we were fetching chats.</string>
     <string name="action_refresh">Refresh</string>
+    <string name="edit_enter_your_username">Enter your username</string>
+    <string name="btn_sign_up">Sign up</string>
+    <string name="text_registration">Registration</string>
+    <string name="err_username_cant_be_blank">Username can\'t be blank!</string>
 
 </resources>
 
