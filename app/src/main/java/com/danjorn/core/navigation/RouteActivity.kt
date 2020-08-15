@@ -19,5 +19,7 @@ class RouteActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
         navigator.openMain(this)
+        // Necessarily call finish() to remove this Activity from stack
+        finish()
     }
 }

@@ -65,7 +65,6 @@
                 android:layout_marginEnd="@dimen/average_margin"
                 android:layout_marginRight="@dimen/average_margin"
                 android:gravity="center_vertical"
-                android:src="@drawable/com_facebook_profile_picture_blank_square"
                 app:civ_border="false" />
 
             <TextView

@@ -3,6 +3,8 @@ package com.danjorn.core.di.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.danjorn.features.chat.ChatListViewModel
+import com.danjorn.features.login.SignInViewModel
+import com.danjorn.features.login.SignUpViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -16,4 +18,14 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ChatListViewModel::class)
     abstract fun bindsChatListViewModel(chatListViewModel: ChatListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SignInViewModel::class)
+    abstract fun bindsLoginViewModel(signInViewModel: SignInViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SignUpViewModel::class)
+    abstract fun bindsSignUpViewModel(loginViewModel: SignUpViewModel): ViewModel
 }

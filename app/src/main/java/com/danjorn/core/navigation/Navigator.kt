@@ -2,7 +2,7 @@ package com.danjorn.core.navigation
 
 import android.content.Context
 import com.danjorn.features.login.Authenticator
-import com.danjorn.features.login.LoginActivity
+import com.danjorn.features.login.SignInActivity
 import com.danjorn.features.chat.ChatListActivity
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,6 +20,6 @@ class Navigator
         }
     }
 
-    private fun openLogin(context: Context) = context.startActivity(LoginActivity.callingIntent(context))
+    private fun openLogin(context: Context) = context.startActivity(SignInActivity.callingIntent(context))
 
 }

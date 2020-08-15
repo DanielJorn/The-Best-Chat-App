@@ -1,6 +1,6 @@
 package com.danjorn.views
 
-import com.danjorn.features.signup.*
+import com.danjorn.features.login.*
 import org.hamcrest.CoreMatchers.*
 
 import org.hamcrest.MatcherAssert.assertThat

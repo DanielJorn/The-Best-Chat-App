@@ -1,87 +1,42 @@
 {
   "project_info": {
-    "project_number": "417000109480",
-    "firebase_url": "https://alwayssunnyweather.firebaseio.com",
-    "project_id": "alwayssunnyweather",
-    "storage_bucket": "alwayssunnyweather.appspot.com"
+    "project_number": "203197070755",
+    "firebase_url": "https://the-best-chat-app-danieljorn.firebaseio.com",
+    "project_id": "the-best-chat-app-danieljorn",
+    "storage_bucket": "the-best-chat-app-danieljorn.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:417000109480:android:856571e628fa90cf",
+        "mobilesdk_app_id": "1:203197070755:android:5b006d18839e614ea22e16",
         "android_client_info": {
           "package_name": "com.danjorn.chatwithlocation"
         }
       },
       "oauth_client": [
         {
-          "client_id": "417000109480-ro265gpsn1nba7h84sfltf48beg89ubt.apps.googleusercontent.com",
+          "client_id": "203197070755-1vvvp5bo7uuf2u1f02qshrannqernkfi.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.danjorn.chatwithlocation",
-            "certificate_hash": "8e650fb360bcffb7e7e29b6de46f7c1a2c803e95"
+            "certificate_hash": "ef58170f1392514f7b472f2df93021d7db3ed948"
           }
         },
         {
-          "client_id": "417000109480-4s5a5nca919cf4795if2nnrp2h6ne8j6.apps.googleusercontent.com",
+          "client_id": "203197070755-d4hluhlv7l563nd83pkg98ep58pjm8e0.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCvD__bbfZYCLdXOge6danny81CZyTtjH0"
+          "current_key": "AIzaSyDpX3PFkcWgVfaczRFeKOiBnjMt2jQwMGo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "417000109480-d3aqhlp9chk1ntqmch19htc2rc7kh7o5.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:417000109480:android:b218eab8c0dcb101",
-        "android_client_info": {
-          "package_name": "com.danjorn.weather"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "417000109480-ln11dtuebd420ccl963np0grr1c9joto.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.danjorn.weather",
-            "certificate_hash": "8e650fb360bcffb7e7e29b6de46f7c1a2c803e95"
-          }
-        },
-        {
-          "client_id": "417000109480-kouomn8nd3cbq300e8on9ikqhpbbaph1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.danjorn.weather",
-            "certificate_hash": "c755fe5d2715a30d75a33d641dd82f5f99bfed16"
-          }
-        },
-        {
-          "client_id": "417000109480-4s5a5nca919cf4795if2nnrp2h6ne8j6.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCvD__bbfZYCLdXOge6danny81CZyTtjH0"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "417000109480-d3aqhlp9chk1ntqmch19htc2rc7kh7o5.apps.googleusercontent.com",
+              "client_id": "203197070755-d4hluhlv7l563nd83pkg98ep58pjm8e0.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

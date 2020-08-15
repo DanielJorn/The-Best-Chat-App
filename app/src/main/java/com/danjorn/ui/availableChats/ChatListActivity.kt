@@ -69,7 +69,7 @@ class ChatListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (barToggle.onOptionsItemSelected(item)) return true
-        when (item?.itemId) {
+        when (item.itemId) {
             R.id.action_refresh -> {
                 refreshChats()
                 return true

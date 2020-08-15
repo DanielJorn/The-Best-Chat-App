@@ -45,6 +45,11 @@
     <string name="btn_sign_up">Sign up</string>
     <string name="text_registration">Registration</string>
     <string name="err_username_cant_be_blank">Username can\'t be blank!</string>
+    <string name="et_login_hint_username">Enter your username</string>
+    <string name="et_login_hint_password">Enter your password</string>
+    <string name="tv_title_sign_in">Sign in</string>
+    <string name="tv_title_or_sign_up">or sign up</string>
+    <string name="btn_sign_in">Sign in</string>
 
 </resources>
 

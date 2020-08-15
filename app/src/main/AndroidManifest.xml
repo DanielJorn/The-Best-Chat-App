@@ -14,31 +14,26 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name="com.danjorn.features.signup.SignUpActivity">
+        <activity
+            android:name="com.danjorn.core.navigation.RouteActivity"
+             android:theme="@style/AppTheme.LauncherTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.danjorn.core.navigation.RouteActivity">
-            <intent-filter>
-                <action
-                    android:name="android.intent.action.MAIN"
-                    android:theme="@style/AppTheme.NoActionBar" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name="com.danjorn.features.login.SignUpActivity" />
         <activity android:name="com.danjorn.features.chat.ChatListActivity" />
         <activity android:name="com.danjorn.ui.chatRoom.ChatRoomActivity" />
-        <activity android:name="com.danjorn.features.login.LoginActivity" />
+        <activity android:name="com.danjorn.features.login.SignInActivity" />
         <activity android:name="com.danjorn.ui.createChat.CreateChatActivity" />
         <activity android:name="com.danjorn.ui.availableChats.ChatListActivity" />
     </application>
