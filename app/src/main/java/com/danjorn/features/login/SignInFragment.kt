@@ -1,6 +1,7 @@
 package com.danjorn.features.login
 
 import android.os.Bundle
+import android.view.View
 import com.danjorn.core.authentication.UserEntity
 import com.danjorn.core.platform.BaseFragment
 import com.danjorn.views.R
@@ -19,6 +20,11 @@ class SignInFragment : BaseFragment() {
         appComponent.inject(this)
 
         viewModel = viewModelFactory.create(SignInViewModel::class.java)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         btn_sign_in.setOnClickListener { signInUser() }
         tv_sign_up_link.setOnClickListener { launchSignUp() }
     }

@@ -9,6 +9,7 @@ import com.danjorn.core.exception.Failure
 import com.danjorn.core.platform.BaseFragment
 import com.danjorn.views.R
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import kotlinx.android.synthetic.main.fragment_login.*
 
 class SignUpFragment : BaseFragment() {
 
@@ -43,6 +44,6 @@ class SignUpFragment : BaseFragment() {
     }
 
     private fun getUser(): UserEntity {
-        return UserEntity(edit_username.text.toString())
+        return UserEntity(et_signup_username.text.toString(), "")//todo add password
     }
 }

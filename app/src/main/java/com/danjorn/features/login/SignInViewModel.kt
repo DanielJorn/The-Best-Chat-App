@@ -13,26 +13,35 @@ import javax.inject.Inject
 class SignInViewModel
 @Inject constructor() : BaseViewModel() {
 
-    private val liveData = MutableLiveData<Boolean>()
+    private val signInSuccess = MutableLiveData<Unit>()
 
     private val fbLogin = DatabaseLogin.FirebaseLogin()
 
-    fun userExists(user: UserEntity) {
+    fun signIn(user: UserEntity) {
         viewModelScope.launch {
-            Log.d("TAG", "onViewCreated: user exists: ${fbLogin.userExists(user)}")
+            if (!userExists(user)) {
+                failure.value = LoginFailure.UserNotExists
+                Log.d("TAG", "signIn: UserNotExists")
+                return@launch
+            }
+            if (!fbLogin.passwordCorrect(user)){
+                failure.value = LoginFailure.IncorrectPassword
+                Log.d("TAG", "signIn: IncorrectPassword")
+                return@launch
+            }
+            signInSuccess.value = signInSuccess.value
+            Log.d("TAG", "signIn: success")
         }
     }
 
-    fun signUp(user: UserEntity){
+    fun signUp(user: UserEntity) {
         viewModelScope.launch {
             fbLogin.signUp(user)
             Log.d("TAG", "signUp: the user is created")
         }
     }
 
-    fun signIn(user: UserEntity) {
-        viewModelScope.launch {
-            fbLogin.signIn(user)
-        }
+    private suspend fun userExists(user: UserEntity): Boolean {
+        return fbLogin.userExists(user)
     }
 }

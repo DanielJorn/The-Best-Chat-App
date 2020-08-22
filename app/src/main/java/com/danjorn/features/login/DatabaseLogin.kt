@@ -1,8 +1,6 @@
 package com.danjorn.features.login
 
-import android.util.Log
 import com.danjorn.core.authentication.UserEntity
-import com.danjorn.core.extension.get
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -36,7 +34,7 @@ interface DatabaseLogin {
         }
 
         override suspend fun passwordCorrect(user: UserEntity): Boolean {
-            val query = usersRef.orderByChild("username").equalTo(user.username)
+            val query = usersRef.orderByChild("username").equalTo(user.username).limitToFirst(1)
 
             return suspendCoroutine { cont ->
                 query.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -45,7 +43,8 @@ interface DatabaseLogin {
                         if (!snapshot.exists())
                             cont.resume(false)
 
-                        val fetchedUser = snapshot.getValue(UserEntity::class.java)!!
+                        val resultSnapshot = snapshot.children.first()
+                        val fetchedUser = resultSnapshot.getValue(UserEntity::class.java)!!
                         cont.resume(fetchedUser.password == user.password)
                     }
 
