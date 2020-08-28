@@ -1,7 +1,3 @@
-#### DEPRECATED!
-
-Please, go to [redesigned and new repository](https://github.com/DanielJorn/Fresh-Chat-App). 
-
 # My Big Improvement!
 This project represents my improvement as a developer.
 
