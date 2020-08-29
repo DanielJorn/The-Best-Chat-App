@@ -13,7 +13,6 @@ androidExtensions {
 android {
     signingConfigs {
         release {
-            storeFile file('F:\\_Programming\\Projects\\TheBestChatApp\\bestchat.jks')
             storePassword '***REMOVED***'
             keyAlias 'chatrelease'
             keyPassword '***REMOVED***'

@@ -18,13 +18,8 @@ class ChatListFragment : BaseFragment() {
 
         chatListViewModel = viewModelFactory.create(ChatListViewModel::class.java)
         chatListViewModel.failure.observe(this, Observer { ::handleFailure })
-        chatListViewModel.permissionGranted.observe(this, Observer { })
+        chatListViewModel.permissionGranted.observe(this, Observer { }) //todo handle permission granted
         chatListViewModel.requestLocationPermission(this)
-
-        val fb = FirebaseDatabase.getInstance()
-        val rootRef = fb.reference
-        rootRef.setValue("test value")
-        Log.d(TAG, "onCreate: called database")
     }
 
     private fun handleFailure(){
